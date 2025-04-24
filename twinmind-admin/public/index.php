@@ -9,6 +9,7 @@ spl_autoload_register(function ($class) {
     }
 });
 
+require_once __DIR__ . '/../app/config.php';
 require_once __DIR__ . '/../helpers.php';
 require_once __DIR__ . '/../routes/web.php';
 
