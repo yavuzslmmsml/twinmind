@@ -8,15 +8,10 @@ class ProfileController {
 
     public function index() {
 
-        $Details = [
-            'Name' => 'Talha',
-            'Surname' => 'Bekci',
-            'Age' => 23
-        ];
-
+        $test = "sifre";
         View::render('profile', [
             'Title' => 'Profile',
-            'ProfileDetails' => $Details
+            'ProfileDetails' => $test
         ]);
     }
 }
