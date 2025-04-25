@@ -6,22 +6,22 @@ use Core\View;
 
 class AuthController {
 
-    public function login() {
+    public function signin() {
 
         // $faqs = [
         //     ['id' => 1, 'title' => 'İlk Post'],
         //     ['id' => 2, 'title' => 'İkinci Post'],
         // ];
 
-        View::render('auth/login', [
-            'title' => 'Login'
+        View::render('auth/signin', [
+            'title' => 'Sign In'
         ], 'auth_layout');
     }
 
-    public function register() {
+    public function signup() {
 
-        View::render('auth/register', [
-            'title' => 'Register'
+        View::render('auth/signup', [
+            'title' => 'Sign Up'
         ], 'auth_layout');
     }
 }
