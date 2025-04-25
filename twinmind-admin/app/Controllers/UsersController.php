@@ -4,12 +4,12 @@ namespace App\Controllers;
 
 use Core\View;
 
-class ProfileController {
+class UsersController {
 
     public function index() {
 
         $test = "sifre";
-        View::render('profile', [
+        View::render('users/index', [
             'Title' => 'Profile',
             'ProfileDetails' => $test
         ]);
