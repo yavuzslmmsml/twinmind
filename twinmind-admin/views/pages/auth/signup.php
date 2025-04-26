@@ -4,8 +4,7 @@
         <!--begin::Wrapper-->
         <div class="d-flex flex-center flex-column flex-column-fluid px-lg-10 pb-15 pb-lg-20">
             <!--begin::Form-->
-            <form class="form w-100" novalidate="novalidate" id="kt_sign_up_form"
-                data-kt-redirect-url="authentication/layouts/creative/sign-in.html" action="#">
+            <form class="form w-100" novalidate="novalidate" id="kt_sign_up_form" data-kt-redirect-url="/" action="#">
                 <!--begin::Heading-->
                 <div class="text-center mb-11">
                     <!--begin::Title-->

@@ -1,7 +1,7 @@
 <!--begin::Javascript-->
 
 <script>
-var hostUrl = "assets/";
+    var hostUrl = "assets/";
 </script>
 <!--begin::Global Javascript Bundle(mandatory for all pages)-->
 <script src="assets/plugins/global/plugins.bundle.js"></script>
@@ -30,6 +30,7 @@ var hostUrl = "assets/";
 <script src="assets/js/custom/utilities/modals/create-app.js"></script>
 <script src="assets/js/custom/utilities/modals/new-target.js"></script>
 <script src="assets/js/custom/utilities/modals/users-search.js"></script>
+<script src="assets/js/custom/authentication/sign-up/general.js"></script>
 <!--end::Custom Javascript-->
 
 <!--end::Javascript-->
