@@ -1,5 +1,7 @@
 <?php
 
+
+
 namespace App\Controllers;
 
 use Core\View;
@@ -20,8 +22,25 @@ class AuthController {
 
     public function signup() {
 
-        View::render('auth/signup', [
-            'title' => 'Sign Up'
-        ], 'auth_layout');
+        if (isset($_POST["data"])) {
+            $name = $_POST["name"];
+            $surname = $_POST["surname"];
+            $email = $_POST["email"];
+            $password = $_POST["password"];
+            $data = [
+                ['name' => $name, 'surname' => $surname, 'email' => $email,  'password' => $password,],
+
+            ];
+
+            View::render('auth/signup', [
+                'title' => 'Sign Up',
+                'data' => $data
+            ], 'auth_layout');
+        } else {
+            View::render('auth/signup', [
+                'title' => 'Sign Up',
+                'data' => 'yok'
+            ], 'auth_layout');
+        }
     }
 }
