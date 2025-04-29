@@ -22,25 +22,40 @@ class AuthController {
 
     public function signup() {
 
-        if (isset($_POST["data"])) {
-            $name = $_POST["name"];
-            $surname = $_POST["surname"];
-            $email = $_POST["email"];
-            $password = $_POST["password"];
-            $data = [
-                ['name' => $name, 'surname' => $surname, 'email' => $email,  'password' => $password,],
+        View::render('auth/signup', [
+            'title' => 'Sign Up',
+            'data' => 'yok'
+        ], 'auth_layout');
+    }
 
-            ];
+    function signupAction() {
 
-            View::render('auth/signup', [
-                'title' => 'Sign Up',
-                'data' => $data
-            ], 'auth_layout');
+        $Errors = [];
+
+        if (!isset($_POST['email']) || empty($_POST['email'])) {
+            $Errors['email'][] = 'Email field is required';
+        }
+
+        if (!isset($_POST['name']) || empty($_POST['name'])) {
+            $Errors['name'][] = 'Name field is required';
+        }
+
+        if (!isset($_POST['password']) || empty($_POST['password'])) {
+            $Errors['password'][] = 'Password cannot be empty.';
         } else {
-            View::render('auth/signup', [
-                'title' => 'Sign Up',
-                'data' => 'yok'
-            ], 'auth_layout');
+            if (strlen($_POST['password']) < 8) {
+                $Errors['password'][] = 'Password length must be at least 8 characters.';
+            }
+            if (!preg_match('/[0-9]/', $_POST['password'])) {
+                $Errors['password'][] = 'Password must contain at least one number.';
+            }
+            if ($_POST['password'] != $_POST['confirm-password']) {
+                $Errors['password'][] = 'Passwords does not match.';
+            }
+        }
+
+        if (!empty($Errors)) {
+            exit(json_encode(['status' => false, 'errors' => $Errors]));
         }
     }
 }

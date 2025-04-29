@@ -148,7 +148,7 @@ var KTSignupGeneral = function () {
                             submitButton.disabled = false;
                             // Error message
                             Swal.fire({
-                                text: "Sorry, looks like there are some errors detected, please try again.",
+                                text: "Sorry, looks like there are some errors detected, please try again. 12",
                                 icon: "error",
                                 buttonsStyling: false,
                                 confirmButtonText: "Ok, got it!",
@@ -160,7 +160,7 @@ var KTSignupGeneral = function () {
                 } else {
                     // Show error popup
                     Swal.fire({
-                        text: "Sorry, looks like there are some errors detected, please try again.",
+                        text: "Sorry, looks like there are some errors detected, please try again 121.",
                         icon: "error",
                         buttonsStyling: false,
                         confirmButtonText: "Ok, got it!",

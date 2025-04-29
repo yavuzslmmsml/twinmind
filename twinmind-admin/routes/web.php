@@ -10,3 +10,4 @@ Router::add('users/', 'UsersController@index');
 Router::add('categories/', 'CategoryController@index');
 Router::get('auth/signin', 'AuthController@signin');
 Router::get('auth/signup', 'AuthController@signup');
+Router::post('auth/signup', 'AuthController@signupAction');
