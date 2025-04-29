@@ -8,11 +8,16 @@ $port = 3306;                    // Port (varsayılan: 3306)
 
 // Bağlantı oluştur
 $conn = mysqli_connect($host, $user, $password, $database, $port);
-
+$return = false;
 // Bağlantıyı kontrol et
 if (!$conn) {
-    exit(json_encode(['status' => false, 'message' => 'baglanamadi ' . mysqli_connect_error() . '']));
+    $return = json_encode(['status' => false, 'message' => 'baglanamadi ' . mysqli_connect_error() . '']);
+} else {
+    $return = json_encode(['status' => true, 'message' => 'baglanti basarili']);
 }
+
+return $return;
+
 
 // Bağlantı başarılıysa mesaj ver
 

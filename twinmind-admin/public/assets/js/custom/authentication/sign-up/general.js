@@ -122,25 +122,49 @@ var KTSignupGeneral = function () {
                             submitButton.removeAttribute('data-kt-indicator');
                             submitButton.disabled = false;
 
-                            // Success message
-                            Swal.fire({
-                                text: "You have successfully signed up!",
-                                icon: "success",
-                                buttonsStyling: false,
-                                confirmButtonText: "Ok, got it!",
-                                customClass: {
-                                    confirmButton: "btn btn-primary"
-                                }
-                            }).then(function (result) {
-                                if (result.isConfirmed) {
-                                    form.reset();  // Reset form
-                                    passwordMeter.reset();  // Reset password meter
-                                    var redirectUrl = form.getAttribute('data-kt-redirect-url');
-                                    if (redirectUrl) {
-                                        location.href = redirectUrl;
+                            if (data.status) {
+                                // Success message
+                                Swal.fire({
+                                    text: data.message,
+                                    icon: "success",
+                                    buttonsStyling: false,
+                                    confirmButtonText: "Ok, got it!",
+                                    customClass: {
+                                        confirmButton: "btn btn-primary"
+                                    }
+                                }).then(function (result) {
+                                    if (result.isConfirmed) {
+                                        form.reset();  // Reset form
+                                        passwordMeter.reset();  // Reset password meter
+                                        // Redirect to signin page
+                                        if (data.redirect) {
+                                            location.href = data.redirect;
+                                        }
+                                    }
+                                });
+                            } else {
+                                // Show error message
+                                let errorMessage = "Sorry, looks like there are some errors detected, please try again.";
+                                if (data.errors) {
+                                    // Handle specific error messages if available
+                                    const errorMessages = [];
+                                    for (const field in data.errors) {
+                                        errorMessages.push(...data.errors[field]);
+                                    }
+                                    if (errorMessages.length > 0) {
+                                        errorMessage = errorMessages.join("\n");
                                     }
                                 }
-                            });
+                                Swal.fire({
+                                    text: errorMessage,
+                                    icon: "error",
+                                    buttonsStyling: false,
+                                    confirmButtonText: "Ok, got it!",
+                                    customClass: {
+                                        confirmButton: "btn btn-primary"
+                                    }
+                                });
+                            }
                         })
                         .catch(error => {
                             // Hide loading indication

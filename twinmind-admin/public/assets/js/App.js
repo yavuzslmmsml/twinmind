@@ -168,7 +168,7 @@ App = {
                     if (formID) {
                         $(formID)[0].reset();
                     }
-                    // Admin.SwalSuccess(e.message);
+                    //Admin.SwalSuccess(e.message);
                     Swal.fire({
                         title: 'Başarılı',
                         text: e.message,
@@ -176,11 +176,12 @@ App = {
                         confirmButtonColor: "#3085d6",
                         cancelButtonColor: "#d33",
                     }).then(() => {
-                        if (redirect) {
+                        if (e.redirect) {
+                            window.location.href = e.redirect;
+                        } else if (redirect) {
                             if (redirect == window.location.pathname || redirect == window.location.pathname + window.location.hash) {
                                 window.location.reload();
                             }
-
                             window.location.href = redirect;
                         } else {
                             window.location.reload();
