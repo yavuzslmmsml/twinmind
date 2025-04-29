@@ -75,6 +75,7 @@ class AuthController {
         // Check if email already exists
 
         $query = "SELECT user_id FROM users WHERE email = '$email'";
+
         $checkEmail = mysqli_query($conn, $query);
         if (mysqli_num_rows($checkEmail) > 0) {
             exit(json_encode(['status' => false, 'errors' => ['email' => ['This email is already registered.']]]));
