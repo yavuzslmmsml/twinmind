@@ -4,7 +4,7 @@
         <!--begin::Wrapper-->
         <div class="d-flex flex-center flex-column flex-column-fluid px-lg-10 pb-15 pb-lg-20">
             <!--begin::Form-->
-            <form class="form w-100" novalidate="novalidate" id="kt_sign_up_form" method="POST">
+            <form class="form w-100" novalidate="novalidate" id="kt_sign_up_form">
                 <!--begin::Heading-->
                 <div class="text-center mb-11">
                     <!--begin::Title-->
@@ -87,7 +87,7 @@
                 <!--end::Accept-->
                 <!--begin::Submit button-->
                 <div class="d-grid mb-10">
-                    <button type="submit" id="kt_sign_up_submit" class="btn btn-primary">
+                    <button type="button" class="btn btn-primary" onclick="App.SubmitSignupForm();">
                         <!--begin::Indicator label-->
                         <span class="indicator-label">Sign up</span>
                         <!--end::Indicator label-->
