@@ -2,6 +2,7 @@
 
 use Core\Router;
 
+Router::add('home/', 'HomeController@index');
 Router::add('/', 'HomeController@index');
 Router::get('faqs/', 'FaqController@index');
 Router::get('faqs/show/{id}', 'FaqController@show');
