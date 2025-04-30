@@ -14,4 +14,20 @@ class CourseController {
             'ProfileDetails' => $test
         ]);
     }
+    public function addNewCourse() {
+
+        $test = "sifre";
+        View::render('courseManagement/addNewCourse', [
+            'Title' => 'All Courses',
+            'ProfileDetails' => $test
+        ]);
+    }
+    public function manageCourseCategory() {
+
+        $test = "sifre";
+        View::render('courseManagement/manageCourseCategory', [
+            'Title' => 'All Courses',
+            'ProfileDetails' => $test
+        ]);
+    }
 }
