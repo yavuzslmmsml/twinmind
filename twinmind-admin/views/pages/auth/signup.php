@@ -30,7 +30,7 @@
                 </div>
                 <div class="fv-row mb-8">
                     <!--begin::Email-->
-                    <input type="text" placeholder="Email" name="email" autocomplete="off"
+                    <input type="text" placeholder="Email" name="email" autocomplete="on"
                         class="form-control bg-transparent" />
                     <!--end::Email-->
                 </div>
@@ -100,7 +100,7 @@
                 <!--end::Submit button-->
                 <!--begin::Sign up-->
                 <div class="text-gray-500 text-center fw-semibold fs-6">Already have an Account?
-                    <a href="authentication/layouts/creative/sign-in.html" class="link-primary fw-semibold">Sign in</a>
+                    <a href="auth/signin" class="link-primary fw-semibold">Sign in</a>
                 </div>
                 <!--end::Sign up-->
             </form>
