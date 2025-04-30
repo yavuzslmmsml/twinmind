@@ -196,6 +196,14 @@ App = {
         var formData = new FormData(document.getElementById('kt_sign_up_form'));
 
         App.FormSubmit('/auth/signup', formData, '#kt_sign_up_form');
+    },
+
+    SubmitSigninForm: function () {
+        var formData = new FormData(document.getElementById('kt_sign_in_form'));
+
+        App.FormSubmit('/auth/signin', formData, '#kt_sign_in_form');
     }
+
+
 
 }

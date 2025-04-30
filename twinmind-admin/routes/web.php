@@ -16,5 +16,6 @@ Router::add('courseManagement/', 'CourseController@index');
 Router::add('courseManagement/addNewCourse', 'CourseController@addNewCourse');
 Router::add('courseManagement/manageCourseCategory', 'CourseController@manageCourseCategory');
 Router::get('auth/signin', 'AuthController@signin');
+Router::post('auth/signin', 'AuthController@signinAction');
 Router::get('auth/signup', 'AuthController@signup');
 Router::post('auth/signup', 'AuthController@signupAction');
