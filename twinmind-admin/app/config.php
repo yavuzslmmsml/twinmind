@@ -1,4 +1,9 @@
 <?php
+// Session'ı başlat
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 // Veritabanı bağlantı bilgileri
 $host = "104.247.167.187";      // IP adresi ya da alan adı (örnek: 192.168.1.100 ya da db.example.com)
 $user = "talhabekci_yavuzslm";         // Veritabanı kullanıcı adı

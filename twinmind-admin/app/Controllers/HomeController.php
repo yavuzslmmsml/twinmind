@@ -10,7 +10,7 @@ class HomeController {
 
         View::render('home/index', [
             'title' => 'Home',
-            'message' => 'Ömer eren acar'
+            'message' => 'TWINMIND'
         ]);
     }
 }

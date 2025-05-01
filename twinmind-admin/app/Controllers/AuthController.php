@@ -117,9 +117,8 @@ class AuthController {
         $result = mysqli_query($conn, $sql);
 
         if (!$result) {
-            exit(json_encode(['status' => false, 'errors' => ['general' => ['Login failed. Please try again.']]]));
+            exit(json_encode(['status' => false, 'message' => ['general' => ['Login failed. Please try again.']]]));
         }
-
 
         // 4. Kullanıcı bulundu mu?
         if (mysqli_num_rows($result) === 1) {
@@ -131,19 +130,28 @@ class AuthController {
             }
 
             if ($user["status"] == 'passive') {
-                exit(json_encode(['status' => false, 'errors' => ['general' => ['This user is not active. Please contact support.']]]));
+                exit(json_encode(['status' => false, 'message' => 'This user is not active. Please contact support.']));
             }
-            // else {
-            //     // $_SESSION['user_id'] = $user['id'];
-            //     // $_SESSION['user_name'] = $user['name'];
-            // }
+
+            // Session'a kullanıcı bilgilerini kaydet
+            $_SESSION['user_id'] = $user['user_id'];
+            $_SESSION['email'] = $user['email'];
+            $_SESSION['logged_in'] = true;
         } else {
             exit(json_encode(['status' => false, 'errors' => ['email' => ['No user found with this email.']]]));
         }
 
-
-
-
         exit(json_encode(['status' => true, 'message' => 'Login successful!', 'redirect' => 'home']));
+    }
+
+    // Oturumu sonlandırmak için yeni bir metod ekleyelim
+    public function signout() {
+        // Session'ı temizle
+        session_unset();
+        session_destroy();
+
+        // Kullanıcıyı giriş sayfasına yönlendir
+        header('Location: /auth/signin');
+        exit();
     }
 }

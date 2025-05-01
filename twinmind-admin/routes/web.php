@@ -19,3 +19,4 @@ Router::get('auth/signin', 'AuthController@signin');
 Router::post('auth/signin', 'AuthController@signinAction');
 Router::get('auth/signup', 'AuthController@signup');
 Router::post('auth/signup', 'AuthController@signupAction');
+Router::post('auth/signout', 'AuthController@signout');

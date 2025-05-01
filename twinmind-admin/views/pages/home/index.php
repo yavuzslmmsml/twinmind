@@ -4,7 +4,11 @@
         <!--begin::FAQ card-->
         <div class="card">
             <?php
-            echo $message;
+            if (isset($_SESSION["logged_in"])) {
+                echo $_SESSION["email"];
+            } else {
+                echo "kullanıcı giris yapmamıs";
+            }
             ?>
         </div>
         <!--end::FAQ card-->

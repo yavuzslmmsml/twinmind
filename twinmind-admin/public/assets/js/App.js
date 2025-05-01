@@ -144,7 +144,6 @@ App = {
                 $(`${formID} input`).removeClass('border-danger');
 
                 if (!e.status) {
-
                     if (e.errors) {
                         $.each(e.errors, (field, messages) => {
                             var input = $(`${formID} [name="${field}"]`);
