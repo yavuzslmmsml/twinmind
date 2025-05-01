@@ -244,7 +244,7 @@
                             <!--end:Menu item-->
                             <div class="menu-item">
                                 <!--begin:Menu link-->
-                                <a class="menu-link" href="users/">
+                                <a class="menu-link" href="users/deleteUser">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
