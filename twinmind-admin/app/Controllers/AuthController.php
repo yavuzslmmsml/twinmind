@@ -134,9 +134,12 @@ class AuthController {
             }
 
             // Session'a kullanıcı bilgilerini kaydet
-            $_SESSION['user_id'] = $user['user_id'];
-            $_SESSION['email'] = $user['email'];
-            $_SESSION['logged_in'] = true;
+            $_SESSION["user"] = [
+                "user_id" => $user["user_id"],
+                "email" => $user["email"],
+                "name" => $user["name"],
+                "logged_in" => true
+            ];
         } else {
             exit(json_encode(['status' => false, 'errors' => ['email' => ['No user found with this email.']]]));
         }

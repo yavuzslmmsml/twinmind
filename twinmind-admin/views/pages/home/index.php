@@ -4,8 +4,8 @@
         <!--begin::FAQ card-->
         <div class="card">
             <?php
-            if (isset($_SESSION["logged_in"])) {
-                echo $_SESSION["email"];
+            if (isset($_SESSION["user"])) {
+                echo $_SESSION["user"]["email"];
             } else {
                 echo "kullanıcı giris yapmamıs";
             }

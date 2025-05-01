@@ -26,6 +26,9 @@ class Router {
     }
 
     public static function dispatch() {
+        // Middleware kontrolü
+        Middleware::run();
+
         $uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
         $method = $_SERVER['REQUEST_METHOD'];
 
