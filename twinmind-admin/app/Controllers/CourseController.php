@@ -30,4 +30,12 @@ class CourseController {
             'ProfileDetails' => $test
         ]);
     }
+    public function pendingCourseApprovals() {
+
+        $test = "sifre";
+        View::render('courseManagement/pendingCourseApprovals', [
+            'Title' => 'All Courses',
+            'ProfileDetails' => $test
+        ]);
+    }
 }
