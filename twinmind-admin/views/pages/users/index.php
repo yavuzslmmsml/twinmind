@@ -85,26 +85,36 @@
                         </tr>
                     </thead>
                     <tbody class="fw-semibold text-gray-600">
+                        <?php
+
+                        $Users = mysqli_fetch_all($Result, MYSQLI_ASSOC);
+                        $key = 1;
+                        foreach ($Users as $UserDetails) {
+
+                            echo $key;
+                        ?>
                         <tr>
                             <td>
                                 <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                    <input class="form-check-input" type="checkbox" value="1" />
+                                    <input class="form-check-input" type="checkbox" value="<?= $key ?>" />
                                 </div>
                             </td>
                             <td>
                                 <a href="apps/ecommerce/customers/details.html"
-                                    class="text-gray-800 text-hover-primary mb-1">Jhon Varvatos</a>
+                                    class="text-gray-800 text-hover-primary mb-1"><?= $UserDetails["name"] ?> &nbsp;
+                                    <?= $UserDetails["surname"] ?></a>
                             </td>
                             <td>
-                                <a href="#" class="text-gray-600 text-hover-primary mb-1">smith@kpmg.com</a>
+                                <a href="#"
+                                    class="text-gray-600 text-hover-primary mb-1"><?= $UserDetails["email"] ?></a>
                             </td>
                             <td>
                                 <!--begin::Badges-->
-                                <div class="badge badge-light-danger">Locked</div>
+                                <div class="badge badge-light-danger"><?= $UserDetails["role"] ?></div>
                                 <!--end::Badges-->
                             </td>
-                            <td>123.68.84.125</td>
-                            <td>19 Aug 2024, 5:30 pm</td>
+                            <td><?= $UserDetails["status"] ?></td>
+                            <td><?= $UserDetails["created_at"] ?></td>
                             <td class="text-end">
                                 <a href="#" class="btn btn-sm btn-light btn-flex btn-center btn-active-light-primary"
                                     data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Actions
@@ -127,6 +137,9 @@
                                 <!--end::Menu-->
                             </td>
                         </tr>
+                        <?php
+                            $key++;
+                        } ?>
                     </tbody>
                     <!--end::Table body-->
                 </table>

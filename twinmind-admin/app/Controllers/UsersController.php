@@ -7,11 +7,14 @@ use Core\View;
 class UsersController {
 
     public function index() {
+        global $conn;
 
-        $test = "sifre";
+        $query = "SELECT `user_id`, `name`, `surname`, `email`, `role`, `status`, `created_at` FROM users";
+
+        $result = mysqli_query($conn, $query);
         View::render('users/index', [
-            'Title' => 'Profile',
-            'ProfileDetails' => $test
+            'Title' => 'Users',
+            'Result' => $result
         ]);
     }
     public function addUser() {
