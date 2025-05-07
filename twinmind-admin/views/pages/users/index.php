@@ -93,7 +93,7 @@
                             </td>
                             <td>
                                 <a href="apps/ecommerce/customers/details.html"
-                                    class="text-gray-800 text-hover-primary mb-1">Emma Smith</a>
+                                    class="text-gray-800 text-hover-primary mb-1">Jhon Varvatos</a>
                             </td>
                             <td>
                                 <a href="#" class="text-gray-600 text-hover-primary mb-1">smith@kpmg.com</a>
@@ -295,7 +295,7 @@
                                         </label>
                                         <!--end::Label-->
                                         <!--begin::Input-->
-                                       
+
                                         <!--end::Input-->
                                     </div>
                                     <!--end::Input group-->
