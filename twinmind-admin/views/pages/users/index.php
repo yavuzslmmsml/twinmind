@@ -26,12 +26,14 @@
                         <!--begin::Filter-->
                         <div class="w-150px me-3">
                             <!--begin::Select2-->
-                            <select class="form-select form-select-solid" data-control="select2" data-hide-search="true"
-                                data-placeholder="Status" data-kt-ecommerce-order-filter="status">
+                            <select class="form-select form-select-solid" id="SelectRole" data-control="select2"
+                                data-hide-search="true" data-placeholder="Role" data-kt-ecommerce-order-filter="role">
                                 <option></option>
                                 <option value="all">All</option>
-                                <option value="active">Active</option>
-                                <option value="locked">Locked</option>
+                                <option value="superuser">Superuser</option>
+                                <option value="admin">Admin</option>
+                                <option value="instructer">Instructer</option>
+                                <option value="member">Member</option>
                             </select>
                             <!--end::Select2-->
                         </div>
@@ -93,50 +95,50 @@
 
                             echo $key;
                         ?>
-                        <tr>
-                            <td>
-                                <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                    <input class="form-check-input" type="checkbox" value="<?= $key ?>" />
-                                </div>
-                            </td>
-                            <td>
-                                <a href="apps/ecommerce/customers/details.html"
-                                    class="text-gray-800 text-hover-primary mb-1"><?= $UserDetails["name"] ?> &nbsp;
-                                    <?= $UserDetails["surname"] ?></a>
-                            </td>
-                            <td>
-                                <a href="#"
-                                    class="text-gray-600 text-hover-primary mb-1"><?= $UserDetails["email"] ?></a>
-                            </td>
-                            <td>
-                                <!--begin::Badges-->
-                                <div class="badge badge-light-danger"><?= $UserDetails["role"] ?></div>
-                                <!--end::Badges-->
-                            </td>
-                            <td><?= $UserDetails["status"] ?></td>
-                            <td><?= $UserDetails["created_at"] ?></td>
-                            <td class="text-end">
-                                <a href="#" class="btn btn-sm btn-light btn-flex btn-center btn-active-light-primary"
-                                    data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Actions
-                                    <i class="ki-duotone ki-down fs-5 ms-1"></i></a>
-                                <!--begin::Menu-->
-                                <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4"
-                                    data-kt-menu="true">
-                                    <!--begin::Menu item-->
-                                    <div class="menu-item px-3">
-                                        <a href="apps/customers/view.html" class="menu-link px-3">View</a>
+                            <tr>
+                                <td>
+                                    <div class="form-check form-check-sm form-check-custom form-check-solid">
+                                        <input class="form-check-input" type="checkbox" value="<?= $key ?>" />
                                     </div>
-                                    <!--end::Menu item-->
-                                    <!--begin::Menu item-->
-                                    <div class="menu-item px-3">
-                                        <a href="#" class="menu-link px-3"
-                                            data-kt-customer-table-filter="delete_row">Delete</a>
+                                </td>
+                                <td>
+                                    <a href="apps/ecommerce/customers/details.html"
+                                        class="text-gray-800 text-hover-primary mb-1"><?= $UserDetails["name"] ?> &nbsp;
+                                        <?= $UserDetails["surname"] ?></a>
+                                </td>
+                                <td>
+                                    <a href="#"
+                                        class="text-gray-600 text-hover-primary mb-1"><?= $UserDetails["email"] ?></a>
+                                </td>
+                                <td>
+                                    <!--begin::Badges-->
+                                    <div class="badge badge-light-danger"><?= $UserDetails["role"] ?></div>
+                                    <!--end::Badges-->
+                                </td>
+                                <td><?= $UserDetails["status"] ?></td>
+                                <td><?= $UserDetails["created_at"] ?></td>
+                                <td class="text-end">
+                                    <a href="#" class="btn btn-sm btn-light btn-flex btn-center btn-active-light-primary"
+                                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Actions
+                                        <i class="ki-duotone ki-down fs-5 ms-1"></i></a>
+                                    <!--begin::Menu-->
+                                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4"
+                                        data-kt-menu="true">
+                                        <!--begin::Menu item-->
+                                        <div class="menu-item px-3">
+                                            <a href="apps/customers/view.html" class="menu-link px-3">View</a>
+                                        </div>
+                                        <!--end::Menu item-->
+                                        <!--begin::Menu item-->
+                                        <div class="menu-item px-3">
+                                            <a href="#" class="menu-link px-3"
+                                                data-kt-customer-table-filter="delete_row">Delete</a>
+                                        </div>
+                                        <!--end::Menu item-->
                                     </div>
-                                    <!--end::Menu item-->
-                                </div>
-                                <!--end::Menu-->
-                            </td>
-                        </tr>
+                                    <!--end::Menu-->
+                                </td>
+                            </tr>
                         <?php
                             $key++;
                         } ?>

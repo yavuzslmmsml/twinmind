@@ -205,4 +205,23 @@ App = {
 
 
 
+
+
+
+
 }
+
+$(document).ready(function () {
+    $('#SelectRole').on('change', function () {
+        var selectedValue = $(this).val();
+        var selectedText = $(this).find('option:selected').text();
+
+        console.log("Seçilen Değer: " + selectedValue);
+        console.log("Seçilen Yazı: " + selectedText);
+
+
+
+        // Örnek işlem:
+        // App.FilterByRole(selectedValue);
+    });
+});

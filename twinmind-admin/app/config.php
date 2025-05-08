@@ -13,6 +13,7 @@ $port = 3306;                    // Port (varsayılan: 3306)
 
 // Bağlantı oluştur
 $conn = mysqli_connect($host, $user, $password, $database, $port);
+mysqli_set_charset($conn, "utf8mb4");
 $return = false;
 // Bağlantıyı kontrol et
 if (!$conn) {
