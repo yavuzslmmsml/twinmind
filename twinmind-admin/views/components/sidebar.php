@@ -425,7 +425,7 @@
                             </div>
                             <div class="menu-item">
                                 <!--begin:Menu link-->
-                                <a class="menu-link" href="">
+                                <a class="menu-link" href="categoryAndTagManagement/addDeleteUpdateCategory">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
@@ -468,7 +468,7 @@
                             <!--begin:Menu item-->
                             <div class="menu-item">
                                 <!--begin:Menu link-->
-                                <a class="menu-link" href="">
+                                <a class="menu-link" href="siteSettings/">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
@@ -480,26 +480,16 @@
                             <!--end:Menu item-->
                             <div class="menu-item">
                                 <!--begin:Menu link-->
-                                <a class="menu-link" href="">
+                                <a class="menu-link" href="faqs">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
-                                    <span class="menu-title">Edit Homepage Layout</span>
+                                    <span class="menu-title">FAQS</span>
                                 </a>
                                 <!--end:Menu link-->
 
                             </div>
-                            <div class="menu-item">
-                                <!--begin:Menu link-->
-                                <a class="menu-link" href="">
-                                    <span class="menu-bullet">
-                                        <span class="bullet bullet-dot"></span>
-                                    </span>
-                                    <span class="menu-title">Configure Email Settings</span>
-                                </a>
-                                <!--end:Menu link-->
-
-                            </div>
+                            
 
                         </div>
                         <!--end:Menu sub-->
@@ -522,7 +512,7 @@
                             <!--begin:Menu item-->
                             <div class="menu-item">
                                 <!--begin:Menu link-->
-                                <a class="menu-link" href="">
+                                <a class="menu-link" href="messages">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>

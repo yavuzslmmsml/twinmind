@@ -15,4 +15,13 @@ class categoryAndTagManagementController {
         ]);
     }
 
+    
+    public function addDeleteUpdateCategory() {
+
+        $test = "sifre";
+        View::render('categoryandTagManagement/addDeleteUpdateCategory', [
+            'Title' => 'Profile',
+            'ProfileDetails' => $test
+        ]);
+    }
 }
