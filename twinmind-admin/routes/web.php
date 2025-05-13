@@ -17,6 +17,7 @@ Router::add('courseManagement/addNewCourse', 'CourseController@addNewCourse');
 Router::add('courseManagement/manageCourseCategory', 'CourseController@manageCourseCategory');
 Router::add('courseManagement/pendingCourseApprovals', 'CourseController@pendingCourseApprovals');
 Router::add('instructorApplications/', 'InstructorApplicationsController@index');
+Router::add('categoryAndTagManagement/', 'categoryAndTagManagementController@index');
 Router::get('auth/signin', 'AuthController@signin');
 Router::post('auth/signin', 'AuthController@signinAction');
 Router::get('auth/signup', 'AuthController@signup');

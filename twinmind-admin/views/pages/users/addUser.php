@@ -5,7 +5,7 @@
         <div class="card">
   <div class="card-body">
     <h3 class="mb-4">Add New User</h3>
-    <form action="add_user_process.php" method="POST">
+    <form  method="POST">
       
       <!-- Full Name -->
       <div class="mb-3">
@@ -45,7 +45,7 @@
       </div>
 
       <!-- Submit Button -->
-      <button type="submit" class="btn btn-primary">Create User</button>
+      <button type="button" class="btn btn-primary">Create User</button>
     </form>
   </div>
 </div>
