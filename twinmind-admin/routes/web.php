@@ -18,6 +18,10 @@ Router::add('courseManagement/manageCourseCategory', 'CourseController@manageCou
 Router::add('courseManagement/pendingCourseApprovals', 'CourseController@pendingCourseApprovals');
 Router::add('instructorApplications/', 'InstructorApplicationsController@index');
 Router::add('categoryAndTagManagement/', 'categoryAndTagManagementController@index');
+Router::add('categoryAndTagManagement/addDeleteUpdateCategory', 'categoryAndTagManagementController@addDeleteUpdateCategory');
+Router::add('siteSettings/', 'SiteSettingsController@index');
+Router::add('messages/', 'MessagesController@index');
+Router::add('messages/reply', 'MessagesController@reply');
 Router::get('auth/signin', 'AuthController@signin');
 Router::post('auth/signin', 'AuthController@signinAction');
 Router::get('auth/signup', 'AuthController@signup');
