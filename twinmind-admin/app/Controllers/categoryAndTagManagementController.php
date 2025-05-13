@@ -9,7 +9,7 @@ class categoryAndTagManagementController {
     public function index() {
 
         $test = "sifre";
-        View::render('categoryAndTagManagement/index', [
+        View::render('categoryandTagManagement/index', [
             'Title' => 'Profile',
             'ProfileDetails' => $test
         ]);

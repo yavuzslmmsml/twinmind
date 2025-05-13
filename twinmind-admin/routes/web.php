@@ -7,6 +7,7 @@ Router::add('/', 'HomeController@index');
 Router::get('faqs/', 'FaqController@index');
 Router::get('faqs/show/{id}', 'FaqController@show');
 Router::add('users/', 'UsersController@index');
+Router::post('users/', 'UsersController@addUserAction');
 Router::add('users/addUser', 'UsersController@addUser');
 Router::add('users/manageRole', 'UsersController@ManageRole');
 Router::add('users/deleteUser', 'UsersController@deleteUser');
