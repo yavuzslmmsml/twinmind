@@ -22,6 +22,14 @@ class MessagesController {
             'Title' => 'All Courses',
             'ProfileDetails' => $test
         ]);
+    }
+     public function systemMessages() {
+
+        $test = "sifre";
+        View::render('messages/systemMessages', [
+            'Title' => 'All Courses',
+            'ProfileDetails' => $test
+        ]);
     
 
 }

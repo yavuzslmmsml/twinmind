@@ -24,6 +24,7 @@ Router::add('categoryAndTagManagement/addDeleteUpdateCategory', 'categoryAndTagM
 Router::add('siteSettings/', 'SiteSettingsController@index');
 Router::add('messages/', 'MessagesController@index');
 Router::add('messages/reply', 'MessagesController@reply');
+Router::add('messages/systemMessages', 'MessagesController@systemMessages');
 Router::get('auth/signin', 'AuthController@signin');
 Router::post('auth/signin', 'AuthController@signinAction');
 Router::get('auth/signup', 'AuthController@signup');
