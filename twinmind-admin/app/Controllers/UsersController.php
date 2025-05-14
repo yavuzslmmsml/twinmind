@@ -64,9 +64,17 @@ class UsersController {
             $Errors["email"][] = 'You can not use this mail.';
         }
 
-        // if ($role != 'superuser' || $role != 'admin' || $role != 'instructer' || $role != 'member') {
-        //     $Errors["role"][] = $role;
-        // }
+        if ($role == "0") {
+            $role = "member";
+        } else if ($role == "1") {
+            $role = "superuser";
+        } else if ($role == "2") {
+            $role = "admin";
+        } else if ($role == "3") {
+            $role = "instructer";
+        } else {
+            $role = "member";
+        }
 
         if (!empty($Errors)) {
             exit(json_encode(['status' => false, 'errors' => $Errors]));
@@ -99,12 +107,43 @@ class UsersController {
         ]);
     }
 
-    public function deleteUser() {
+    public function deleteUserAction() {
 
-        $test = "sifre";
-        View::render('users/deleteUser', [
-            'Title' => 'Manage Role',
-            'ProfileDetails' => $test
-        ]);
+        global $conn;
+
+
+        $sql = "SELECT role FROM users WHERE user_id ='" . $_SESSION['user']['user_id'] . "'";
+        $result = mysqli_query($conn, $sql);
+        if (mysqli_num_rows($result) === 1) {
+            $user = mysqli_fetch_assoc($result);
+
+            if ($user['role'] != "superuser") {
+                exit(json_encode(['status' => false, 'errors' => 'You do not have the right to delete a user.', 'redirect' => 'users']));
+            }
+        } else {
+            exit(json_encode(['status' => false, 'errors' => 'An Error occurred', 'redirect' => 'users']));
+        }
+
+        if (!isset($_POST['userId']) || empty($_POST['userId'])) {
+            exit(json_encode(['status' => false, 'errors' => 'There is no user ID', 'redirect' => 'users']));
+        }
+
+        if ($_POST["userId"] == $_SESSION['user']['user_id']) {
+            exit(json_encode(['status' => false, 'errors' => 'You cant delete yourself', 'redirect' => 'users']));
+        }
+
+        // Prepare the data for insertion
+        $userId = mysqli_real_escape_string($conn, $_POST['userId']);
+        // Check if email already exists
+
+
+        // Insert new user
+        $deletesql = "DELETE FROM users where user_id = '$userId'";
+
+        if (mysqli_query($conn, $deletesql)) {
+            exit(json_encode(['status' => true, 'message' => 'User successfully deleted!', 'redirect' => 'users']));
+        } else {
+            exit(json_encode(['status' => false, 'errors' => 'An Error occurred. Please try again.']));
+        }
     }
 }

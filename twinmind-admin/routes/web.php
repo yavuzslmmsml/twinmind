@@ -8,6 +8,7 @@ Router::get('faqs/', 'FaqController@index');
 Router::get('faqs/show/{id}', 'FaqController@show');
 Router::add('users/', 'UsersController@index');
 Router::post('users/', 'UsersController@addUserAction');
+Router::post('users/', 'UsersController@deleteUserAction');
 Router::add('users/addUser', 'UsersController@addUser');
 Router::add('users/manageRole', 'UsersController@ManageRole');
 Router::add('users/deleteUser', 'UsersController@deleteUser');

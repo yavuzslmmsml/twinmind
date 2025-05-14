@@ -25,6 +25,7 @@ var hostUrl = "assets/";
 <!--begin::Custom Javascript(used for this page only)-->
 <script src="/assets/js/App.js"></script>
 <script src="/assets/js/AddUser.js"></script>
+<script src="/assets/js/DeleteUser.js"></script>
 <script src="/assets/js/widgets.bundle.js"></script>
 <script src="/assets/js/custom/widgets.js"></script>
 <script src="/assets/js/custom/apps/chat/chat.js"></script>
