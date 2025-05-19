@@ -138,7 +138,7 @@ DeleteUser = {
             if (result.isConfirmed) {
 
                 $.ajax({
-                    url: '/users',
+                    url: '/users/',
                     type: 'POST',
                     data: { userId: userId },
                     dataType: 'json',
