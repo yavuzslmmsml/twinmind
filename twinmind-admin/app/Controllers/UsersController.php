@@ -9,6 +9,8 @@ class UsersController {
     public function index() {
         global $conn;
 
+
+
         $query = "SELECT `user_id`, `name`, `surname`, `email`, `role`, `status`, `created_at` FROM users";
 
         $result = mysqli_query($conn, $query);
