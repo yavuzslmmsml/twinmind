@@ -21,6 +21,7 @@ class UsersController {
     }
 
     function addUserAction() {
+        dd(123);
         global $conn;
         $Errors = [];
 
@@ -110,7 +111,7 @@ class UsersController {
     }
 
     public function deleteUserAction() {
-
+        dd(1);
         global $conn;
 
 
