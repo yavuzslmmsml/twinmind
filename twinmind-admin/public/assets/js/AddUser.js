@@ -193,7 +193,7 @@ AddUser = {
 
     SubmitAddUserForm: function () {
         var formData = new FormData(document.getElementById('kt_modal_add_customer_form'));
-        AddUser.FormSubmit('/users', formData, '#kt_modal_add_customer_form');
+        AddUser.FormSubmit('/users/add', formData, '#kt_modal_add_customer_form');
     }
 
 }
