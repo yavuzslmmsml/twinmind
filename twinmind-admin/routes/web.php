@@ -7,7 +7,7 @@ Router::add('/', 'HomeController@index');
 Router::get('faqs/', 'FaqController@index');
 Router::get('faqs/show/{id}', 'FaqController@show');
 Router::add('users/', 'UsersController@index');
-Router::post('users/', 'UsersController@addUserAction');
+Router::post('users/add', 'UsersController@addUserAction');
 Router::get('users/delete/{id}', 'UsersController@deleteUserAction');
 Router::add('users/addUser', 'UsersController@addUser');
 Router::add('users/manageRole', 'UsersController@ManageRole');
@@ -21,6 +21,16 @@ Router::add('courseManagement/pendingCourseApprovals', 'CourseController@pending
 Router::add('instructorApplications/', 'InstructorApplicationsController@index');
 Router::add('categoryAndTagManagement/', 'categoryAndTagManagementController@index');
 Router::add('categoryAndTagManagement/addDeleteUpdateCategory', 'categoryAndTagManagementController@addDeleteUpdateCategory');
+
+// Yeni kategori yönetimi rotaları
+Router::add('category-management/', 'categoryAndTagManagementController@index');
+Router::get('category-management/add', 'categoryAndTagManagementController@addCategory');
+Router::post('category-management/save', 'categoryAndTagManagementController@saveCategory');
+Router::get('category-management/edit/{id}', 'categoryAndTagManagementController@editCategory');
+Router::post('category-management/update', 'categoryAndTagManagementController@updateCategory');
+Router::get('category-management/delete/{id}', 'categoryAndTagManagementController@deleteCategory');
+Router::get('category-management/subcategories', 'categoryAndTagManagementController@getSubCategoriesJson');
+
 Router::add('siteSettings/', 'SiteSettingsController@index');
 Router::add('messages/', 'MessagesController@index');
 Router::add('messages/reply', 'MessagesController@reply');
