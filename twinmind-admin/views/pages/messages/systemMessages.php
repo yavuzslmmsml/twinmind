@@ -46,21 +46,21 @@
 
                             $row = mysqli_fetch_assoc($result);
                         ?>
-                        <tr>
+                            <tr>
 
-                            <td>
-                                <a href="apps/ecommerce/customers/details.html"
-                                    class="text-gray-800 text-hover-primary mb-1"><?= $MessageDetails["id"] ?> </a>
-                            </td>
-                            <?php
+                                <td>
+                                    <a href="apps/ecommerce/customers/details.html"
+                                        class="text-gray-800 text-hover-primary mb-1"><?= $MessageDetails["id"] ?> </a>
+                                </td>
+                                <?php
                                 if ($MessageDetails["recipient_role"] == 0) {
                                 ?>
-                            <td>
-                                <!--begin::Badges-->
-                                <div class="badge badge-light-danger">All Role</div>
-                                <!--end::Badges-->
-                            </td>
-                            <?php
+                                    <td>
+                                        <!--begin::Badges-->
+                                        <div class="badge badge-light-danger">All Role</div>
+                                        <!--end::Badges-->
+                                    </td>
+                                <?php
                                 } else {
 
 
@@ -70,44 +70,46 @@
                                     $row = mysqli_fetch_assoc($result);
                                     echo json_encode($row);
                                 ?>
-                            <td>
-                                <!--begin::Badges-->
-                                <div class="badge badge-light-danger"><?= $row["role_name"] ?></div>
-                                <!--end::Badges-->
-                            </td>
-                            <?php } ?>
-                            <td>
-                                <a href="#"
-                                    class="text-gray-600 text-hover-primary mb-1"><?= $MessageDetails["title"] ?></a>
-                            </td>
-                            <td>
-                                <!--begin::Badges-->
-                                <div class="badge badge-light-danger"><?= $MessageDetails["message"] ?></div>
-                                <!--end::Badges-->
-                            </td>
+                                    <td>
+                                        <!--begin::Badges-->
+                                        <div class="badge badge-light-danger"><?= $row["role_name"] ?></div>
+                                        <!--end::Badges-->
+                                    </td>
+                                <?php } ?>
+                                <td>
+                                    <a href="#"
+                                        class="text-gray-600 text-hover-primary mb-1"><?= $MessageDetails["title"] ?></a>
+                                </td>
+                                <td>
+                                    <!--begin::Badges-->
+                                    <div class="badge badge-light-danger"><?= $MessageDetails["message"] ?></div>
+                                    <!--end::Badges-->
+                                </td>
 
-                            <td><?= $MessageDetails["sent_at"] ?></td>
-                            <td class="text-end">
-                                <a href="#" class="btn btn-sm btn-light btn-flex btn-center btn-active-light-primary"
-                                    data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Actions
-                                    <i class="ki-duotone ki-down fs-5 ms-1"></i></a>
-                                <!--begin::Menu-->
-                                <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4"
-                                    data-kt-menu="true">
-                                    <!--begin::Menu item-->
-                                    <div class="menu-item px-3">
-                                        <a href="apps/customers/view.html" class="menu-link px-3">View</a>
+                                <td><?= $MessageDetails["sent_at"] ?></td>
+                                <td class="text-end">
+                                    <a href="#" class="btn btn-sm btn-light btn-flex btn-center btn-active-light-primary"
+                                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Actions
+                                        <i class="ki-duotone ki-down fs-5 ms-1"></i></a>
+                                    <!--begin::Menu-->
+                                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4"
+                                        data-kt-menu="true">
+                                        <!--begin::Menu item-->
+                                        <div class="menu-item px-3">
+                                            <a href="apps/customers/view.html" class="menu-link px-3">View</a>
+                                        </div>
+                                        <!--end::Menu item-->
+                                        <!--begin::Menu item-->
+                                        <div class="menu-item px-3">
+                                            <button type="button" class="delete-system-message-btn"
+                                                data-system-message-id="<?= $MessageDetails['id'] ?>"
+                                                onclick="Delete.DeleteSystemMessage(<?= $MessageDetails['id'] ?>)">Delete</button>
+                                        </div>
+                                        <!--end::Menu item-->
                                     </div>
-                                    <!--end::Menu item-->
-                                    <!--begin::Menu item-->
-                                    <div class="menu-item px-3">
-                                        <button type="button" class="delete-user-btn">Delete</button>
-                                    </div>
-                                    <!--end::Menu item-->
-                                </div>
-                                <!--end::Menu-->
-                            </td>
-                        </tr>
+                                    <!--end::Menu-->
+                                </td>
+                            </tr>
                         <?php
 
                         } ?>
@@ -159,16 +161,16 @@
 </div>
 
 <script>
-let editing = false;
+    let editing = false;
 
-function loadNotifications() {
-    fetch('get_notifications.php')
-        .then(res => res.json())
-        .then(data => {
-            const tbody = document.getElementById("notificationsBody");
-            tbody.innerHTML = '';
-            data.forEach((item, index) => {
-                const row = `
+    function loadNotifications() {
+        fetch('get_notifications.php')
+            .then(res => res.json())
+            .then(data => {
+                const tbody = document.getElementById("notificationsBody");
+                tbody.innerHTML = '';
+                data.forEach((item, index) => {
+                    const row = `
           <tr data-role="${item.recipient_role}">
             <td>${index + 1}</td>
             <td>${item.title}</td>
@@ -184,64 +186,64 @@ function loadNotifications() {
               </button>
             </td>
           </tr>`;
-                tbody.insertAdjacentHTML('beforeend', row);
+                    tbody.insertAdjacentHTML('beforeend', row);
+                });
             });
+    }
+
+    document.getElementById("searchInput").addEventListener("keyup", () => {
+        const filter = event.target.value.toLowerCase();
+        document.querySelectorAll("#notificationsTable tbody tr").forEach(row => {
+            row.style.display = [...row.children].some(td => td.textContent.toLowerCase().includes(
+                filter)) ? "" : "none";
         });
-}
-
-document.getElementById("searchInput").addEventListener("keyup", () => {
-    const filter = event.target.value.toLowerCase();
-    document.querySelectorAll("#notificationsTable tbody tr").forEach(row => {
-        row.style.display = [...row.children].some(td => td.textContent.toLowerCase().includes(
-            filter)) ? "" : "none";
     });
-});
-document.getElementById("filterRole").addEventListener("change", () => {
-    const role = event.target.value;
-    document.querySelectorAll("#notificationsTable tbody tr").forEach(row => {
-        row.style.display = role === "" || row.dataset.role === role ? "" : "none";
+    document.getElementById("filterRole").addEventListener("change", () => {
+        const role = event.target.value;
+        document.querySelectorAll("#notificationsTable tbody tr").forEach(row => {
+            row.style.display = role === "" || row.dataset.role === role ? "" : "none";
+        });
     });
-});
 
-function editNotification(item) {
-    document.getElementById("notification_id").value = item.id;
-    document.getElementById("title").value = item.title;
-    document.getElementById("message").value = item.message;
-    document.getElementById("recipient_role").value = item.recipient_role;
-    document.getElementById("submitText").innerText = "Update";
-    document.getElementById("modalTitle").innerText = "Update Notification";
-    editing = true;
-    new bootstrap.Modal(document.getElementById('notificationModal')).show();
-}
+    function editNotification(item) {
+        document.getElementById("notification_id").value = item.id;
+        document.getElementById("title").value = item.title;
+        document.getElementById("message").value = item.message;
+        document.getElementById("recipient_role").value = item.recipient_role;
+        document.getElementById("submitText").innerText = "Update";
+        document.getElementById("modalTitle").innerText = "Update Notification";
+        editing = true;
+        new bootstrap.Modal(document.getElementById('notificationModal')).show();
+    }
 
-function deleteNotification(id) {
-    if (!confirm("Delete this notification?")) return;
-    fetch('delete_notification.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: 'id=' + id
-    }).then(res => res.text()).then(() => loadNotifications());
-}
+    function deleteNotification(id) {
+        if (!confirm("Delete this notification?")) return;
+        fetch('delete_notification.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: 'id=' + id
+        }).then(res => res.text()).then(() => loadNotifications());
+    }
 
-document.getElementById("notificationForm").addEventListener("submit", function(e) {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const url = editing ? 'update_notification.php' : 'send_notification_process.php';
+    document.getElementById("notificationForm").addEventListener("submit", function(e) {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const url = editing ? 'update_notification.php' : 'send_notification_process.php';
 
-    fetch(url, {
-        method: 'POST',
-        body: new URLSearchParams(formData)
-    }).then(res => res.text()).then(() => {
-        e.target.reset();
-        editing = false;
-        document.getElementById("submitText").innerText = "Send";
-        document.getElementById("modalTitle").innerText = "Send Notification";
-        bootstrap.Modal.getInstance(document.getElementById('notificationModal')).hide();
-        loadNotifications();
+        fetch(url, {
+            method: 'POST',
+            body: new URLSearchParams(formData)
+        }).then(res => res.text()).then(() => {
+            e.target.reset();
+            editing = false;
+            document.getElementById("submitText").innerText = "Send";
+            document.getElementById("modalTitle").innerText = "Send Notification";
+            bootstrap.Modal.getInstance(document.getElementById('notificationModal')).hide();
+            loadNotifications();
+        });
     });
-});
 
-document.addEventListener("DOMContentLoaded", loadNotifications);
+    document.addEventListener("DOMContentLoaded", loadNotifications);
 </script>

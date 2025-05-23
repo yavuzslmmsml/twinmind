@@ -21,7 +21,7 @@ class UsersController {
     }
 
     function addUserAction() {
-        dd(123);
+
         global $conn;
         $Errors = [];
 
@@ -110,8 +110,8 @@ class UsersController {
         ]);
     }
 
-    public function deleteUserAction() {
-        dd(1);
+    public function deleteUserAction($id) {
+
         global $conn;
 
 
@@ -127,21 +127,17 @@ class UsersController {
             exit(json_encode(['status' => false, 'errors' => 'An Error occurred', 'redirect' => 'users']));
         }
 
-        if (!isset($_POST['userId']) || empty($_POST['userId'])) {
-            exit(json_encode(['status' => false, 'errors' => 'There is no user ID', 'redirect' => 'users']));
-        }
-
-        if ($_POST["userId"] == $_SESSION['user']['user_id']) {
+        if ($id == $_SESSION['user']['user_id']) {
             exit(json_encode(['status' => false, 'errors' => 'You cant delete yourself', 'redirect' => 'users']));
         }
 
         // Prepare the data for insertion
-        $userId = mysqli_real_escape_string($conn, $_POST['userId']);
+        $user_id = mysqli_real_escape_string($conn, $id);
         // Check if email already exists
 
 
         // Insert new user
-        $deletesql = "DELETE FROM users where user_id = '$userId'";
+        $deletesql = "DELETE FROM users where user_id = '$user_id'";
 
         if (mysqli_query($conn, $deletesql)) {
             exit(json_encode(['status' => true, 'message' => 'User successfully deleted!', 'redirect' => 'users']));

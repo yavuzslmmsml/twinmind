@@ -86,4 +86,16 @@ class MessagesController {
             }
         }
     }
+
+    public function systemMessagesDeleteAction($id) {
+        global $conn;
+
+
+        $sql = "DELETE FROM system_messages WHERE id = $id ";
+        if (mysqli_query($conn, $sql)) {
+            exit(json_encode(['status' => true, 'message' => 'System Message successfully deleted!', 'redirect' => 'messages/systemMessages']));
+        } else {
+            exit(json_encode(['status' => false, 'errors' => ['general' => ['systemMessage deletefailed. Please try again.']]]));
+        }
+    }
 }

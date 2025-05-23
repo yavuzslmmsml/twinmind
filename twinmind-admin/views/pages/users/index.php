@@ -133,7 +133,7 @@
                                         <div class="menu-item px-3">
                                             <button type="button" class="delete-user-btn"
                                                 data-user-id="<?= $UserDetails["user_id"] ?>"
-                                                onclick="DeleteUser.Delete(<?= $UserDetails['user_id'] ?>)">Delete</button>
+                                                onclick="Delete.DeleteUser(<?= $UserDetails['user_id'] ?>)">Delete</button>
                                         </div>
                                         <!--end::Menu item-->
                                     </div>
