@@ -9,13 +9,29 @@ class UsersController {
     public function index() {
         global $conn;
 
+        $query = "
+            SELECT
+                CONCAT_WS(' ', name, surname) AS user_full_name,
+                `user_id`,
+                `email`,
+                `role`,
+                `status`,
+                `created_at`
+            FROM
+                `users`
+            GROUP BY
+                `user_id`
 
-
-        $query = "SELECT `user_id`, `name`, `surname`, `email`, `role`, `status`, `created_at` FROM users";
-
+            ORDER BY
+                `user_id` desc    
+        ";
         $result = mysqli_query($conn, $query);
+        $result = mysqli_fetch_all($result, MYSQLI_ASSOC);
+        $Count = count($result);
+
         View::render('users/index', [
             'Title' => 'Users',
+            'Count' => $Count,
             'Result' => $result
         ]);
     }

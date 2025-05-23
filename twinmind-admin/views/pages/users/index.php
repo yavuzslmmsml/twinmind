@@ -88,23 +88,16 @@
                     </thead>
                     <tbody class="fw-semibold text-gray-600">
                         <?php
-
-                        $Users = mysqli_fetch_all($Result, MYSQLI_ASSOC);
-                        $key = 1;
-                        foreach ($Users as $UserDetails) {
-
-                            echo $key;
+                        foreach ($Result as $UserDetails) {
                         ?>
                             <tr>
                                 <td>
-                                    <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                        <input class="form-check-input" type="checkbox" value="<?= $key ?>" />
-                                    </div>
+                                    <a href="apps/ecommerce/customers/details.html" class="text-gray-800 text-hover-primary mb-1"><?= $UserDetails["user_id"] ?></a>
                                 </td>
                                 <td>
-                                    <a href="apps/ecommerce/customers/details.html"
-                                        class="text-gray-800 text-hover-primary mb-1"><?= $UserDetails["name"] ?> &nbsp;
-                                        <?= $UserDetails["surname"] ?></a>
+                                    <a href="apps/ecommerce/customers/details.html" class="text-gray-800 text-hover-primary mb-1">
+                                        <?= $UserDetails["user_full_name"] ?>
+                                    </a>
                                 </td>
                                 <td>
                                     <a href="#"
@@ -140,10 +133,11 @@
                                     <!--end::Menu-->
                                 </td>
                             </tr>
-                        <?php
-                            $key++;
-                        } ?>
+                        <?php } ?>
                     </tbody>
+                    <tfoot>
+                        <?= $Count ?>
+                    </tfoot>
                     <!--end::Table body-->
                 </table>
                 <!--end::Table-->
