@@ -1,4 +1,4 @@
-DeleteUser = {
+Delete = {
     DateFormat: function (format = 'Y-m-d', datetime = 'now') {
         let date;
 
@@ -122,44 +122,74 @@ DeleteUser = {
             confirmButtonColor: '#ffc107',
         });
     },
-
-    Delete: function (userId) {
-
+    DeleteUser: function (userId) {
+        console.log(userId);
         Swal.fire({
-            title: 'Are you sure?',
+            title: 'Are You Sure?',
             text: "Do you want to delete this user?",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',
             cancelButtonColor: '#6c757d',
             confirmButtonText: 'Yes, delete!',
-            cancelButtonText: 'Dismiss'
+            cancelButtonText: 'Cancel'
         }).then((result) => {
             if (result.isConfirmed) {
+                Delete.BlockUI(); // Yükleniyor ekranı göster
 
-                $.ajax({
-                    url: '/users/',
-                    type: 'POST',
-                    data: { userId: userId },
-                    dataType: 'json',
-                    beforeSend: function () {
-                        DeleteUser.BlockUI();
-                    },
-                    success: function (res) {
-                        DeleteUser.UnBlockUI();
+                // GET isteği ile kullanıcıyı sil
+                $.getJSON('/users/delete/' + userId)
+                    .done(function (res) {
+                        Delete.UnBlockUI(); // Yükleniyor ekranı kaldır
 
-                        if (res.status == true) {
-                            DeleteUser.SwalSuccess(res.message);
-                            // Silinen kullanıcıyı tabloda DOM'dan kaldırmak istersen:
-                            $(`[data-user-id="${userId}"]`).closest('tr').remove();
-
+                        if (res.status === true) {
+                            Delete.SwalSuccess(res.message || 'User Deleted successfully');
+                            $(`[data-user-id="${userId}"]`).closest('tr').remove(); // DOM'dan sil
                         } else {
-                            DeleteUser.SwalError(res.errors);
+                            Delete.SwalError(res.errors || 'Silme işlemi başarısız.');
                         }
-                    }
-                });
+                    })
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                        Delete.UnBlockUI();
+                        Delete.SwalError('Sunucu hatası: ' + errorThrown);
+                    });
+            }
+        });
+    },
 
+    DeleteSystemMessage: function (SystemMessageId) {
+        console.log(SystemMessageId);
+        Swal.fire({
+            title: 'Are You Sure?',
+            text: "Do you want to delete this system message?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Yes, delete!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Delete.BlockUI(); // Yükleniyor ekranı göster
+
+                // GET isteği ile kullanıcıyı sil
+                $.getJSON('/messages/systemMessages/delete/' + SystemMessageId)
+                    .done(function (res) {
+                        Delete.UnBlockUI(); // Yükleniyor ekranı kaldır
+
+                        if (res.status === true) {
+                            Delete.SwalSuccess(res.message || 'User Deleted successfully');
+                            $(`[data-system-message-id="${SystemMessageId}"]`).closest('tr').remove(); // DOM'dan sil
+                        } else {
+                            Delete.SwalError(res.errors || 'Silme işlemi başarısız.');
+                        }
+                    })
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                        Delete.UnBlockUI();
+                        Delete.SwalError('Sunucu hatası: ' + errorThrown);
+                    });
             }
         });
     }
-};
+}
+

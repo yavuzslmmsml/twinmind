@@ -1,7 +1,7 @@
 <!--begin::Javascript-->
 
 <script>
-var hostUrl = "assets/";
+    var hostUrl = "assets/";
 </script>
 <!--begin::Global Javascript Bundle(mandatory for all pages)-->
 <script src="/assets/plugins/global/plugins.bundle.js"></script>
@@ -25,7 +25,7 @@ var hostUrl = "assets/";
 <!--begin::Custom Javascript(used for this page only)-->
 <script src="/assets/js/App.js"></script>
 <script src="/assets/js/AddUser.js"></script>
-<script src="/assets/js/DeleteUser.js"></script>
+<script src="/assets/js/Delete.js"></script>
 <script src="/assets/js/AddMessage.js"></script>
 <script src="/assets/js/widgets.bundle.js"></script>
 <script src="/assets/js/custom/widgets.js"></script>
