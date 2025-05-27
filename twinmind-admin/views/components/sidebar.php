@@ -37,6 +37,11 @@
     <!--begin::sidebar menu-->
     <div class="app-sidebar-menu overflow-hidden flex-column-fluid">
         <!--begin::Menu wrapper-->
+
+        <?php
+        if ($_SESSION["user"]["role"] == "superuser" || $_SESSION["user"]["role"] == "admin") {
+
+        ?>
         <div id="kt_app_sidebar_menu_wrapper" class="app-sidebar-wrapper">
             <!--begin::Scroll wrapper-->
             <div id="kt_app_sidebar_menu_scroll" class="scroll-y my-5 mx-3" data-kt-scroll="true"
@@ -414,7 +419,7 @@
                             <!--begin:Menu item-->
                             <div class="menu-item">
                                 <!--begin:Menu link-->
-                                <a class="menu-link" href="categoryAndTagManagement/">
+                                <a class="menu-link" href="category-management/">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
@@ -489,7 +494,7 @@
                                 <!--end:Menu link-->
 
                             </div>
-                            
+
 
                         </div>
                         <!--end:Menu sub-->
@@ -744,6 +749,8 @@
             </div>
             <!--end::Scroll wrapper-->
         </div>
+
+        <?php } ?>
         <!--end::Menu wrapper-->
     </div>
     <!--end::sidebar menu-->

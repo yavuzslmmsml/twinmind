@@ -138,6 +138,7 @@ class AuthController {
                 "user_id" => $user["user_id"],
                 "email" => $user["email"],
                 "name" => $user["name"],
+                "role" => $user["role"],
                 "logged_in" => true
             ];
         } else {

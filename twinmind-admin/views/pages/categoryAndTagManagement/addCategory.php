@@ -22,7 +22,6 @@
                             <label for="parent_id">Ana Kategori</label>
                             <select class="form-control" id="parent_id" name="parent_id">
                                 <option value="">Ana Kategori</option>
-
                                 <?php foreach ($mainCategories as $category): ?>
                                     <option value="<?= $category['id'] ?>"><?= $category['name'] ?></option>
                                 <?php endforeach; ?>
@@ -59,86 +58,72 @@
         const subSubParentContainer = document.getElementById('subsubcategory_container');
         const subSubParentSelect = document.getElementById('subsub_parent_id');
 
-        // Ana kategori değiştiğinde alt kategorileri getir
-        parentSelect.addEventListener('change', function() {
-            const parentId = this.value;
-
-            // Alt alt kategori panelini kapat
-            subSubParentContainer.style.display = 'none';
-            subSubParentSelect.innerHTML = '<option value="">Seçiniz</option>';
-
-            if (parentId === '') {
-                subParentContainer.style.display = 'none';
-                return;
-            }
-
-            // Ana kategori seçildiğinde alt kategorileri getir
+        // Function to load subcategories
+        function loadSubcategories(parentId, targetSelect) {
             fetch('/category-management/subcategories?parent_id=' + parentId)
                 .then(response => response.json())
                 .then(data => {
-                    // Alt kategori seçim listesini temizle ve yeniden doldur
-                    subParentSelect.innerHTML = '<option value="">Seçiniz</option>';
+                    targetSelect.innerHTML = '<option value="">Seçiniz</option>';
 
-                    if (data.length > 0) {
-                        data.forEach(subCategory => {
-                            const option = document.createElement('option');
-                            option.value = subCategory.id;
-                            option.textContent = subCategory.name;
-                            subParentSelect.appendChild(option);
-                        });
-
-                        subParentContainer.style.display = 'block';
-                    } else {
-                        subParentContainer.style.display = 'none';
-                    }
+                    data.forEach(subCategory => {
+                        const option = document.createElement('option');
+                        option.value = subCategory.id;
+                        option.textContent = subCategory.name;
+                        targetSelect.appendChild(option);
+                    });
                 });
-        });
+        }
 
-        // Alt kategori değiştiğinde alt alt kategorileri getir
-        subParentSelect.addEventListener('change', function() {
-            const subParentId = this.value;
+        // Handle main category change
+        parentSelect.addEventListener('change', function() {
+            const selectedParentId = this.value;
 
-            if (subParentId === '') {
-                subSubParentContainer.style.display = 'none';
-                return;
+            // Reset subcategory container
+            subParentContainer.style.display = 'none';
+            subParentSelect.innerHTML = '<option value="">Seçiniz</option>';
+
+            if (selectedParentId) {
+                subParentContainer.style.display = 'block';
+                loadSubcategories(selectedParentId, subParentSelect);
             }
-
-            // Alt kategori seçildiğinde alt alt kategorileri getir
-            fetch('/category-management/subcategories?parent_id=' + subParentId)
-                .then(response => response.json())
-                .then(data => {
-                    // Alt alt kategori seçim listesini temizle ve yeniden doldur
-                    subSubParentSelect.innerHTML = '<option value="">Seçiniz</option>';
-
-                    if (data.length > 0) {
-                        data.forEach(subSubCategory => {
-                            const option = document.createElement('option');
-                            option.value = subSubCategory.id;
-                            option.textContent = subSubCategory.name;
-                            subSubParentSelect.appendChild(option);
-                        });
-
-                        subSubParentContainer.style.display = 'block';
-                    } else {
-                        subSubParentContainer.style.display = 'none';
-                    }
-                });
         });
 
-        // Form gönderilmeden önce seçilen kategoriyi parent_id'ye ata
+        // Handle form submission
         document.querySelector('form').addEventListener('submit', function(e) {
             e.preventDefault();
 
-            // Eğer alt alt kategori seçildiyse
-            if (subSubParentSelect.value !== '') {
-                parentSelect.value = subSubParentSelect.value;
-            }
-            // Eğer alt kategori seçildiyse ve alt alt kategori seçilmediyse
-            else if (subParentSelect.value !== '') {
-                parentSelect.value = subParentSelect.value;
+            // Get form data
+            const formData = new FormData(this);
+
+            // Determine the final parent_id based on selections
+            if (subParentSelect.value) {
+                formData.set('parent_id', subParentSelect.value);
+            } else if (parentSelect.value) {
+                formData.set('parent_id', parentSelect.value);
+            } else {
+                formData.set('parent_id', '');
             }
 
-            this.submit();
+            // Submit the form using fetch
+            fetch('/category-management/save', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    if (response.redirected) {
+                        window.location.href = response.url;
+                    } else {
+                        return response.text();
+                    }
+                })
+                .then(data => {
+                    if (data) {
+                        console.error('Error:', data);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
         });
     });
 </script>

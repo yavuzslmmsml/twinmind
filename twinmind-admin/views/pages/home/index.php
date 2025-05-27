@@ -5,7 +5,7 @@
         <div class="card">
             <?php
             if (isset($_SESSION["user"])) {
-                echo $_SESSION["user"]["email"];
+                echo $_SESSION["user"]["role"];
             } else {
                 echo "kullanıcı giris yapmamıs";
             }

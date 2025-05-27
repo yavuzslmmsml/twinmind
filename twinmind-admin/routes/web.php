@@ -12,15 +12,13 @@ Router::get('users/delete/{id}', 'UsersController@deleteUserAction');
 Router::add('users/addUser', 'UsersController@addUser');
 Router::add('users/manageRole', 'UsersController@ManageRole');
 Router::add('users/deleteUser', 'UsersController@deleteUser');
-Router::add('categoryManagement/', 'CategoryController@index');
-Router::add('categoryManagement/addCategory', 'CategoryController@addCategory');
 Router::add('courseManagement/', 'CourseController@index');
 Router::add('courseManagement/addNewCourse', 'CourseController@addNewCourse');
 Router::add('courseManagement/manageCourseCategory', 'CourseController@manageCourseCategory');
 Router::add('courseManagement/pendingCourseApprovals', 'CourseController@pendingCourseApprovals');
 Router::add('instructorApplications/', 'InstructorApplicationsController@index');
-Router::add('categoryAndTagManagement/', 'categoryAndTagManagementController@index');
-Router::add('categoryAndTagManagement/addDeleteUpdateCategory', 'categoryAndTagManagementController@addDeleteUpdateCategory');
+
+
 
 // Yeni kategori yönetimi rotaları
 Router::add('category-management/', 'categoryAndTagManagementController@index');
