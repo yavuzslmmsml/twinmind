@@ -161,4 +161,14 @@ class UsersController {
             exit(json_encode(['status' => false, 'errors' => 'An Error occurred. Please try again.']));
         }
     }
+
+    public function show($id) {
+
+        View::render('users/show', [
+            'users' => $id
+        ]);
+    }
+    
+
+        
 }

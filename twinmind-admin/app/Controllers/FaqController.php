@@ -22,7 +22,7 @@ class FaqController {
 
     public function show($id) {
 
-        View::render('faqs/show', [
+        View::render('users/show', [
             'faq' => $id
         ]);
     }
