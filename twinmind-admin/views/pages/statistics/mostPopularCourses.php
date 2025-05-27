@@ -1,118 +1,115 @@
-<?php
-// AJAX isteği geldiyse sadece kurs listesini döndür
-if (isset($_GET['ajax'])) {
-    $courses = [
-        ['title' => 'Mastering JavaScript', 'students' => 1523, 'rating' => 4.8, 'category' => 'Programming'],
-        ['title' => 'Python for Data Science', 'students' => 1280, 'rating' => 4.7, 'category' => 'Data Science'],
-        ['title' => 'React Bootcamp', 'students' => 980, 'rating' => 4.9, 'category' => 'Programming'],
-        ['title' => 'UI/UX Design Fundamentals', 'students' => 870, 'rating' => 4.6, 'category' => 'Design'],
-        ['title' => 'Machine Learning A-Z', 'students' => 765, 'rating' => 4.5, 'category' => 'Data Science'],
-    ];
+<div id="kt_app_content" class="app-content flex-column-fluid">
+    <!--begin::Content container-->
+    <div id="kt_app_content_container" class="app-container container-xxl">
+  
+    <?php
+// Statik kurs verisi
+$courses = [
+  ['title' => 'Mastering JavaScript', 'students' => 1523, 'rating' => 4.8, 'category' => 'Programming'],
+  ['title' => 'Python for Data Science', 'students' => 1280, 'rating' => 4.7, 'category' => 'Data Science'],
+  ['title' => 'React Bootcamp', 'students' => 980, 'rating' => 4.9, 'category' => 'Programming'],
+  ['title' => 'UI/UX Design Fundamentals', 'students' => 870, 'rating' => 4.6, 'category' => 'Design'],
+  ['title' => 'Machine Learning A-Z', 'students' => 765, 'rating' => 4.5, 'category' => 'Data Science'],
+];
 
-    $search = strtolower($_GET['search'] ?? '');
-    $category = $_GET['category'] ?? '';
+// Form verileri
+$search = strtolower($_GET['search'] ?? '');
+$category = $_GET['category'] ?? '';
 
-    $filtered = array_filter($courses, function($c) use ($search, $category) {
-        return (empty($search) || strpos(strtolower($c['title']), $search) !== false)
-            && (empty($category) || $c['category'] === $category);
-    });
-
-    if (empty($filtered)) {
-        echo '<div class="col-12"><div class="alert alert-warning">No courses found.</div></div>';
-    } else {
-        foreach ($filtered as $course) {
-            echo '<div class="col-md-6 col-lg-4">
-                <div class="course-card h-100">
-                    <h5>' . htmlspecialchars($course['title']) . '</h5>
-                    <p class="mb-1">👥 ' . number_format($course['students']) . ' students</p>
-                    <p class="rating">⭐ ' . $course['rating'] . ' / 5.0</p>
-                    <p class="text-muted">📚 ' . $course['category'] . '</p>
-                    <button class="btn btn-sm btn-primary mt-2">View Course</button>
-                </div>
-            </div>';
-        }
-    }
-    exit;
-}
+// Filtreleme
+$filteredCourses = array_filter($courses, function ($course) use ($search, $category) {
+  $titleMatch = empty($search) || strpos(strtolower($course['title']), $search) !== false;
+  $categoryMatch = empty($category) || $course['category'] === $category;
+  return $titleMatch && $categoryMatch;
+});
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <title>Most Popular Courses</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-  <style>
-    .course-card {
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-      border-radius: 12px;
-      padding: 20px;
-      background: #fff;
-      transition: 0.2s;
-    }
-    .course-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-    .rating {
-      font-weight: bold;
-      color: #f39c12;
-    }
-  </style>
+  <link href="https://preview.keenthemes.com/html/metronic/assets/plugins/global/plugins.bundle.css" rel="stylesheet" />
+  <link href="https://preview.keenthemes.com/html/metronic/assets/css/style.bundle.css" rel="stylesheet" />
 </head>
 <body>
-<div id="kt_app_content" class="app-content flex-column-fluid">
-  <div id="kt_app_content_container" class="app-container container-xxl py-5">
-    <h2 class="mb-4">Most Popular Courses</h2>
+<div class="container-xxl py-10">
+  <h2 class="fs-1 fw-bold mb-10 text-gray-800">Most Popular Courses</h2>
 
-    <!-- Arama ve Filtre -->
-    <div class="row g-3 mb-4">
-      <div class="col-md-6">
-        <input type="text" id="searchInput" class="form-control" placeholder="Search courses...">
-      </div>
-      <div class="col-md-6">
-        <select id="categorySelect" class="form-select">
-          <option value="">All Categories</option>
-          <option>Programming</option>
-          <option>Data Science</option>
-          <option>Design</option>
-        </select>
-      </div>
+  <!-- Filter Form -->
+  <form method="get" class="row mb-10 g-5 align-items-end" id="filterForm">
+    <div class="col-md-5">
+      <label class="form-label fw-semibold">Search</label>
+      <input type="text" name="search" class="form-control form-control-solid" placeholder="Search courses..." value="<?= htmlspecialchars($search) ?>">
     </div>
+    <div class="col-md-4">
+      <label class="form-label fw-semibold">Category</label>
+      <select name="category" class="form-select form-select-solid" id="categorySelect" data-control="select2">
+        <option value="" <?= $category === '' ? 'selected' : '' ?>>All Categories</option>
+        <option value="Programming" <?= $category === 'Programming' ? 'selected' : '' ?>>Programming</option>
+        <option value="Data Science" <?= $category === 'Data Science' ? 'selected' : '' ?>>Data Science</option>
+        <option value="Design" <?= $category === 'Design' ? 'selected' : '' ?>>Design</option>
+      </select>
+    </div>
+    <div class="col-md-3 d-grid">
+      <button type="submit" class="btn btn-primary fw-bold">
+        <i class="ki-duotone ki-filter fs-2"></i> Filter
+      </button>
+    </div>
+  </form>
 
-    <!-- Kurs Kartları -->
-    <div class="row g-4" id="coursesContainer"></div>
+  <!-- Course Cards -->
+  <div class="row g-6">
+    <?php if (empty($filteredCourses)): ?>
+      <div class="col-12">
+        <div class="alert alert-warning d-flex align-items-center p-5">
+          <i class="ki-duotone ki-information fs-2hx text-warning me-4"></i>
+          <div class="d-flex flex-column">
+            <h4 class="mb-1 text-dark">No courses found</h4>
+            <span>Try changing your search or category.</span>
+          </div>
+        </div>
+      </div>
+    <?php else: ?>
+      <?php foreach ($filteredCourses as $course): ?>
+        <div class="col-md-6 col-lg-4">
+          <div class="card card-flush h-100">
+            <div class="card-header">
+              <h3 class="card-title text-gray-800 fw-bold"><?= htmlspecialchars($course['title']) ?></h3>
+            </div>
+            <div class="card-body">
+              <div class="mb-2 text-muted">👥 <?= number_format($course['students']) ?> students</div>
+              <div class="mb-2 text-warning fw-semibold">⭐ <?= $course['rating'] ?> / 5.0</div>
+              <div class="mb-4 text-gray-600">📚 <?= $course['category'] ?></div>
+              <a href="#" class="btn btn-sm btn-light-primary">
+                <i class="ki-duotone ki-arrow-right fs-4 me-1"></i>View Course
+              </a>
+            </div>
+          </div>
+        </div>
+      <?php endforeach; ?>
+    <?php endif; ?>
   </div>
 </div>
 
 <!-- JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="https://preview.keenthemes.com/html/metronic/assets/plugins/global/plugins.bundle.js"></script>
+<script src="https://preview.keenthemes.com/html/metronic/assets/js/scripts.bundle.js"></script>
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    $('#categorySelect').select2({
-      placeholder: "Select category",
-      allowClear: true
+    const selectElement = $('#categorySelect');
+
+    // select2 başlat - allowClear kaldırıldı ve placeholder yerine varsayılan seçenek kullanıldı
+    selectElement.select2();
+
+    // kategori değiştiğinde formu otomatik gönder
+    selectElement.on('change', function () {
+      document.getElementById('filterForm').submit();
     });
-
-    const searchInput = document.getElementById("searchInput");
-    const categorySelect = document.getElementById("categorySelect");
-    const coursesContainer = document.getElementById("coursesContainer");
-
-    async function fetchCourses() {
-      const search = searchInput.value;
-      const category = categorySelect.value;
-      const currentFile = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
-
-      const response = await fetch(`${currentFile}?ajax=1&search=${encodeURIComponent(search)}&category=${encodeURIComponent(category)}`);
-      const html = await response.text();
-      coursesContainer.innerHTML = html;
-    }
-
-    searchInput.addEventListener("input", fetchCourses);
-    categorySelect.addEventListener("change", fetchCourses);
-    fetchCourses(); // Sayfa açılırken yükle
   });
 </script>
 </body>
 </html>
+    </div>
+    <!--end::Content container-->
+</div>

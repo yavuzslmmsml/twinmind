@@ -24,7 +24,7 @@ class StatisticsController {
         ]);
     }
 
-     public function topEarnnig() {
+     public function topEarning() {
 
         $test = "sifre";
         View::render('statistics/topEarning', [

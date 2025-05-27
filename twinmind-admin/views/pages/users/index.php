@@ -119,7 +119,7 @@
                                         data-kt-menu="true">
                                         <!--begin::Menu item-->
                                         <div class="menu-item px-3">
-                                            <a href="apps/customers/view.html" class="menu-link px-3">View</a>
+                                            <a href="users/show" class="menu-link px-3">Display</a>
                                         </div>
                                         <!--end::Menu item-->
                                         <!--begin::Menu item-->
