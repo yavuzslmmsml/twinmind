@@ -2,12 +2,12 @@
 
 use Core\Router;
 
-Router::add('home/', 'HomeController@index');
-Router::add('/', 'HomeController@index');
-Router::get('faqs/', 'FaqController@index');
-Router::get('faqs/show/{id}', 'FaqController@show');
-Router::add('users/', 'UsersController@index');
-Router::get('users/show/{id}', 'UsersController@show');
+Router::add('home/', 'HomeController@index', ['AuthCheck']);
+Router::add('/', 'HomeController@index', ['AuthCheck']);
+Router::get('faqs/', 'FaqController@index', ['AuthCheck', 'RoleCheck']);
+Router::get('faqs/show/{id}', 'FaqController@show', ['AuthCheck', 'RoleCheck']);
+Router::add('users/', 'UsersController@index', ['AuthCheck', 'RoleCheck']);
+Router::get('users/show/{id}', 'UsersController@show', ['AuthCheck', 'RoleCheck']);
 Router::post('users/add', 'UsersController@addUserAction');
 Router::get('users/delete/{id}', 'UsersController@deleteUserAction');
 Router::add('users/addUser', 'UsersController@addUser');
