@@ -5,32 +5,47 @@ namespace Core;
 class Router {
     private static array $routes = [];
 
-    public static function add(string $uri, string $controllerMethod) {
+    public static function add(string $uri, string $controllerMethod, array $middlewares = []) {
         self::$routes['ANY'][trim($uri, '/')] = $controllerMethod;
+        if (!empty($middlewares)) {
+            Middleware::addToRoute($uri, $middlewares);
+        }
     }
 
-    public static function get(string $uri, string $controllerMethod) {
+    public static function get(string $uri, string $controllerMethod, array $middlewares = []) {
         self::$routes['GET'][trim($uri, '/')] = $controllerMethod;
+        if (!empty($middlewares)) {
+            Middleware::addToRoute($uri, $middlewares);
+        }
     }
 
-    public static function post(string $uri, string $controllerMethod) {
+    public static function post(string $uri, string $controllerMethod, array $middlewares = []) {
         self::$routes['POST'][trim($uri, '/')] = $controllerMethod;
+        if (!empty($middlewares)) {
+            Middleware::addToRoute($uri, $middlewares);
+        }
     }
 
-    public static function put(string $uri, string $controllerMethod) {
+    public static function put(string $uri, string $controllerMethod, array $middlewares = []) {
         self::$routes['PUT'][trim($uri, '/')] = $controllerMethod;
+        if (!empty($middlewares)) {
+            Middleware::addToRoute($uri, $middlewares);
+        }
     }
 
-    public static function delete(string $uri, string $controllerMethod) {
+    public static function delete(string $uri, string $controllerMethod, array $middlewares = []) {
         self::$routes['DELETE'][trim($uri, '/')] = $controllerMethod;
+        if (!empty($middlewares)) {
+            Middleware::addToRoute($uri, $middlewares);
+        }
     }
 
     public static function dispatch() {
-        // Middleware kontrolü
-        Middleware::run();
-
         $uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
         $method = $_SERVER['REQUEST_METHOD'];
+
+        // Middleware kontrolü
+        Middleware::run($uri);
 
         if ($uri == '') {
             $uri = '/';
