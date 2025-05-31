@@ -201,6 +201,14 @@ App = {
         var formData = new FormData(document.getElementById('kt_sign_in_form'));
 
         App.FormSubmit('/auth/signin', formData, '#kt_sign_in_form');
+    },
+
+    SubmitAddCourseForm: function () {
+        var formData = new FormData(document.getElementById('add-course-form'));
+
+        for (let [key, value] of formData.entries()) {
+            console.log(`${key}:`, value);
+        }
     }
 
 

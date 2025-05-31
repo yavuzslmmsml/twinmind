@@ -3,58 +3,41 @@
 namespace Core;
 
 class Middleware {
-    private static array $middlewares = [];
-    private static array $publicRoutes = ['auth/signin', 'auth/signup'];
+    private static array $routeMiddlewares = [];
 
-    // ✅ Rol bazlı erişim izinleri
-    private static array $rolePermissions = [
-        'superuser' => ['faqs', 'users', 'categoryAndTagManagement', 'courseManagement'],
-        'admin' => ['faqs', 'users', 'categoryAndTagManagement'],
-        'instructor' => ['courseManagement']
-    ];
-
-    public static function add($middleware) {
-        self::$middlewares[] = $middleware;
+    public static function addToRoute(string $route, array $middlewares) {
+        self::$routeMiddlewares[trim($route, '/')] = $middlewares;
     }
 
-    public static function run() {
-        $uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+    public static function run(string $uri) {
+        $cleanUri = trim($uri, '/');
 
-        // 🔐 1. Giriş yapılmamışsa ve public değilse -> yönlendir
-        if (!in_array($uri, self::$publicRoutes) && !isset($_SESSION['user'])) {
-            header('Location: /auth/signin');
-            exit();
-        }
+        foreach (self::$routeMiddlewares as $route => $middlewares) {
+            $pattern = preg_replace('#\{[^\}]+\}#', '([^/]+)', $route);
+            $regexPattern = "#^$pattern$#";
 
-        // 🔐 2. Giriş yapılmışsa ama public route'a gitmek istiyorsa -> yönlendir
-        if (isset($_SESSION['user']) && in_array($uri, self::$publicRoutes)) {
-            header('Location: /');
-            exit();
-        }
+            if (preg_match($regexPattern, $cleanUri) || $route === $cleanUri) {
+                foreach ($middlewares as $middlewareClass) {
+                    $fullMiddlewareClass = "App\\Middleware\\$middlewareClass";
 
-        // 🔐 3. Rol kontrolü
-        if (isset($_SESSION['user'])) {
-            $role = $_SESSION['user']['role'] ?? null;
+                    if (!class_exists($fullMiddlewareClass)) {
+                        throw new \Exception("Middleware '$fullMiddlewareClass' not found");
+                    }
 
-            // Rol tanımlı değilse veya geçerli değilse
-            if (!$role || !isset(self::$rolePermissions[$role])) {
-                http_response_code(403);
-                echo "Erişim reddedildi (rol tanımlı değil).";
-                exit();
-            }
+                    $middleware = new $fullMiddlewareClass();
 
-            // Rolün yetkili sayfa listesinde değilse
-            if (!in_array($uri, self::$rolePermissions[$role])) {
-                http_response_code(403);
-                echo "Bu sayfaya erişim yetkiniz yok.";
-                exit();
+                    if (!method_exists($middleware, 'handle')) {
+                        throw new \Exception("Middleware '$fullMiddlewareClass' must have handle method");
+                    }
+
+                    $middleware->handle();
+                }
+                break;
             }
         }
+    }
 
-        // 🔄 4. Diğer middleware'leri çalıştır
-        foreach (self::$middlewares as $middleware) {
-            $instance = new $middleware();
-            $instance->handle();
-        }
+    public static function getRouteMiddlewares() {
+        return self::$routeMiddlewares;
     }
 }
