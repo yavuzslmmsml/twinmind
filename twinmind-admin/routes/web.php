@@ -15,6 +15,7 @@ Router::add('users/manageRole', 'UsersController@ManageRole');
 Router::add('users/deleteUser', 'UsersController@deleteUser');
 Router::add('courseManagement/', 'CourseController@index');
 Router::add('courseManagement/addNewCourse', 'CourseController@addNewCourse');
+Router::post('courseManagement/addNewCourse', 'CourseController@addNewCourseWithPost');
 Router::add('courseManagement/manageCourseCategory', 'CourseController@manageCourseCategory');
 Router::add('courseManagement/pendingCourseApprovals', 'CourseController@pendingCourseApprovals');
 Router::add('instructorApplications/', 'InstructorApplicationsController@index');

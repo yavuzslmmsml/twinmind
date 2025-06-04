@@ -3,7 +3,7 @@
   <div id="kt_app_content_container" class="app-container container-xxl">
     <div class="container mt-5 mb-5">
       <h3 class="mb-4">Add New Course</h3>
-      <form id="add-course-form">
+      <form method="POST" enctype="multipart/form-data" id="add-course-form">
         <div class="row">
           <!-- Title -->
           <div class="col-md-12 mb-3">
@@ -83,8 +83,8 @@
 
           <!-- Submit -->
           <div class="col-12 text-end">
-            <button type="submit" class="btn btn-primary" onclick="App.SubmitAddCourseForm();">Create
-              Course</button>
+            <button type="button" class="btn btn-primary" id="kt_add_course_btn"
+              onclick="App.SubmitAddCourseForm();">Create Course</button>
           </div>
         </div>
       </form>
@@ -101,6 +101,9 @@
           </div>
           <div class="modal-body">
             <!-- Category List -->
+            <?php
+            echo $Categories;
+            ?>
             <div class="form-check">
               <input class="form-check-input" type="checkbox" value="web" id="catWeb">
               <label class="form-check-label" for="catWeb">Web Development</label>
@@ -166,8 +169,13 @@
         lessonDiv.innerHTML = `
     <input type="text" name="sections[${sectionIdx}][lessons][${lessonCount}][title]" class="form-control mb-2" placeholder="Lesson Title">
     <input type="file" name="sections[${sectionIdx}][lessons][${lessonCount}][video]" class="form-control" accept="video/mp4" required>
+    <button type="button" class="btn btn-danger btn-sm mt-2" onclick="removeLesson(this)">Remove Lesson</button>
   `;
         lessonsContainer.appendChild(lessonDiv);
+      }
+
+      function removeLesson(button) {
+        button.parentElement.remove();
       }
 
       function applyCategories() {
@@ -180,10 +188,52 @@
 
         checked.forEach((item) => {
           const cat = item.value;
-          selectedDisplay.innerHTML += `<span class="badge bg-secondary me-1">${cat}</span>`;
+          selectedDisplay.innerHTML += `
+      <span class="badge bg-secondary me-1 mb-1">
+        ${cat}
+        <button type="button" class="btn-close btn-close-white ms-1" style="font-size: 0.5rem;" 
+          onclick="removeCategory('${cat}')" aria-label="Remove"></button>
+      </span>`;
           hiddenInputs.innerHTML += `<input type="hidden" name="categories[]" value="${cat}">`;
         });
       }
+
+      function removeCategory(category) {
+        // Uncheck the checkbox in the modal
+        const checkbox = document.querySelector(`#categoryModal input[value="${category}"]`);
+        if (checkbox) {
+          checkbox.checked = false;
+        }
+
+        // Remove the category from display and hidden inputs
+        const selectedDisplay = document.getElementById('selectedCategoriesDisplay');
+        const hiddenInputs = document.getElementById('selectedCategoriesInputs');
+
+        // Remove the hidden input
+        const hiddenInput = hiddenInputs.querySelector(`input[value="${category}"]`);
+        if (hiddenInput) {
+          hiddenInput.remove();
+        }
+
+        // Remove the badge
+        const badges = selectedDisplay.querySelectorAll('.badge');
+        badges.forEach(badge => {
+          if (badge.textContent.trim().startsWith(category)) {
+            badge.remove();
+          }
+        });
+      }
+
+      // Prevent form submission on file input change
+      document.addEventListener('DOMContentLoaded', function() {
+        const fileInputs = document.querySelectorAll('input[type="file"]');
+        fileInputs.forEach(input => {
+          input.addEventListener('change', function(e) {
+            e.preventDefault();
+            // You can add file validation or preview logic here if needed
+          });
+        });
+      });
     </script>
 
   </div>

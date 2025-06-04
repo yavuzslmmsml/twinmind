@@ -134,6 +134,7 @@ App = {
             processData: false,
             dataType: 'json',
             beforeSend: function () {
+                console.log(data);
                 App.BlockUI();
             },
             success: (e) => {
@@ -205,7 +206,7 @@ App = {
 
     SubmitAddCourseForm: function () {
         var formData = new FormData(document.getElementById('add-course-form'));
-
+        App.FormSubmit('/courseManagement/addNewCourse', formData, '#add-course-form');
         for (let [key, value] of formData.entries()) {
             console.log(`${key}:`, value);
         }
