@@ -63,7 +63,7 @@ class CourseController {
 
                 $html .= '
                 <div class="form-check" style="margin-left: ' . $margin . 'px;">
-                    <input class="form-check-input" type="checkbox" value="' . $id . '" id="cat' . $id . '" name="categories[]">
+                    <input class="form-check-input" type="checkbox" value="' . $name . '" id="cat' . $id . '" name="categories[]">
                     <label class="form-check-label" for="cat' . $id . '">' . $name . '(' . $id . ')</label>
                 </div>
             ';
@@ -80,7 +80,57 @@ class CourseController {
 
     public function addNewCourseWithPost() {
 
-        exit(json_encode(['status' => true, 'message' => 'Course Added', 'redirect' => 'home']));
+        $title = $_POST['title'] ?? '';
+        $description = $_POST['description'] ?? '';
+        $price = $_POST['price'] ?? '';
+        $status = $_POST['status'] ?? '';
+
+        $categories = $_POST['categories'] ?? []; // array
+
+        // JSON çıktısı
+        echo json_encode(['categories' => $categories], JSON_PRETTY_PRINT);
+
+        $thumbnail = $_FILES['thumbnail'] ?? null;
+
+        if ($thumbnail && $thumbnail['error'] === 0) {
+            $thumbName = $thumbnail['name'];
+            $thumbTmp = $thumbnail['tmp_name'];
+
+            // örnek: uploads klasörüne kaydet
+            // move_uploaded_file($thumbTmp, "uploads/" . $thumbName);
+        }
+
+        $sections = $_POST['sections'] ?? [];
+
+        foreach ($sections as $secIndex => $section) {
+            $sectionTitle = $section['title'];
+
+            echo "Section: $sectionTitle\n";
+
+            foreach ($section['lessons'] as $lessonIndex => $lesson) {
+                $lessonTitle = $lesson['title'];
+                echo " - Lesson: $lessonTitle\n";
+            }
+        }
+
+        $lessonVideos = $_FILES['sections'];
+
+        foreach ($lessonVideos['name'] as $secIndex => $section) {
+            foreach ($section['lessons'] as $lessonIndex => $lesson) {
+                $videoName = $lesson['video'];
+                $videoTmp = $_FILES['sections']['tmp_name'][$secIndex]['lessons'][$lessonIndex]['video'];
+
+                // move_uploaded_file($videoTmp, "uploads/videos/" . $videoName);
+            }
+        }
+        echo "-------------------------------------------------\n";
+        echo json_encode([
+            'post' => $_POST,
+            'files' => $_FILES
+        ], JSON_PRETTY_PRINT);
+
+
+        // exit(json_encode(['status' => true, 'message' => 'Course Added', 'redirect' => 'home']));
     }
     public function manageCourseCategory() {
 

@@ -32,7 +32,9 @@
           <!-- Instructor -->
           <div class="col-md-6 mb-3">
             <label class="form-label">Instructor</label>
-            <input type="text" name="instructor" class="form-control" required>
+            <p class="text-uppercase"><?= $_SESSION["user"]["name"] ?></p>
+            <input type="hidden" name="instructer" class="form-control"
+              value="<?= $_SESSION["user"]["user_id"] ?>">
           </div>
 
           <!-- Price -->
@@ -99,35 +101,8 @@
             <h5 class="modal-title">Select Categories</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="modal-body">
+          <div class="modal-body"><?= $Categories; ?>
             <!-- Category List -->
-            <?php
-            echo $Categories;
-            ?>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="web" id="catWeb">
-              <label class="form-check-label" for="catWeb">Web Development</label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="design" id="catDesign">
-              <label class="form-check-label" for="catDesign">Design</label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="marketing" id="catMarketing">
-              <label class="form-check-label" for="catMarketing">Marketing</label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="data" id="catData">
-              <label class="form-check-label" for="catData">Data Science</label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="it" id="catIT">
-              <label class="form-check-label" for="catIT">IT & Software</label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="business" id="catBusiness">
-              <label class="form-check-label" for="catBusiness">Business</label>
-            </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-primary" onclick="applyCategories()"
@@ -191,7 +166,7 @@
           selectedDisplay.innerHTML += `
       <span class="badge bg-secondary me-1 mb-1">
         ${cat}
-        <button type="button" class="btn-close btn-close-white ms-1" style="font-size: 0.5rem;" 
+        <button type="button" class="btn-close btn-close-black ms-1" style="font-size: 0.5rem;" 
           onclick="removeCategory('${cat}')" aria-label="Remove"></button>
       </span>`;
           hiddenInputs.innerHTML += `<input type="hidden" name="categories[]" value="${cat}">`;
