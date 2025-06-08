@@ -79,14 +79,16 @@ class CourseController {
 
 
     public function addNewCourseWithPost() {
+        global $conn;
+
 
         $title = $_POST['title'] ?? '';
         $description = $_POST['description'] ?? '';
+        $instructer = $_POST['instructer'] ?? '';
         $price = $_POST['price'] ?? '';
-        $status = $_POST['status'] ?? '';
-
+        $is_published = $_POST['status'] ?? '';
+        $title = $_POST['title'];
         $categories = $_POST['categories'] ?? []; // array
-
         // JSON çıktısı
         echo json_encode(['categories' => $categories], JSON_PRETTY_PRINT);
 
@@ -100,34 +102,62 @@ class CourseController {
             // move_uploaded_file($thumbTmp, "uploads/" . $thumbName);
         }
 
+        $query = "INSERT INTO `courses` (`title`,`description`,`section_count`,`instructer_id`,`price`,`thumbnail`,`is_published`,`created_at`) VALUES ('$title','$description','0','$instructer','$price','$thumbName','$is_published',NOW())";
+
+        if (mysqli_query($conn, $query)) {
+            $course_id = mysqli_insert_id($conn);
+        } else {
+            exit(json_encode(['status' => false, 'errors' => ['general' => ['Registration failed. Please try again.']]]));
+        }
+
+
         $sections = $_POST['sections'] ?? [];
 
-        foreach ($sections as $secIndex => $section) {
-            $sectionTitle = $section['title'];
+        $sectionCounter = 0;
 
-            echo "Section: $sectionTitle\n";
+        foreach ($sections as $section_index => $section) {
+            $section_title = mysqli_real_escape_string($conn, $section['title']);
+            $lesson_count = count($section['lessons']);
+            $section_order = $section_index + 1;
+            $sectionCounter++;
 
-            foreach ($section['lessons'] as $lessonIndex => $lesson) {
-                $lessonTitle = $lesson['title'];
-                echo " - Lesson: $lessonTitle\n";
+            $query = "INSERT INTO course_sections (course_id, section_title, lesson_count, section_order,created_at)
+            VALUES ('$course_id', '$section_title', '$lesson_count', '$section_order',NOW())";
+
+            if (mysqli_query($conn, $query)) {
+                $section_id = mysqli_insert_id($conn);
+
+                foreach ($section['lessons'] as $lesson_index => $lesson) {
+                    $lesson_title = mysqli_real_escape_string($conn, $lesson['title']);
+                    $lesson_order = $lesson_index + 1;
+
+
+                    $video_files = $lesson['video']; // HER ZAMAN ARRAY
+                    $video_count = count($video_files);
+                    echo json_encode($video_count);
+                    // Lesson insert
+                    $sql2 = "INSERT INTO course_lessons (section_id,lesson_title, video_count, lesson_order,created_at)
+                     VALUES ($section_id, '$lesson_title', $video_count, $lesson_order,NOW())";
+                    if (mysqli_query($conn, $sql2)) {
+                        $lesson_id = mysqli_insert_id($conn);
+
+                        // Video insert (örnek)
+                        foreach ($video_files as $video_file) {
+                            $filename = mysqli_real_escape_string($conn, $video_file['name'] ?? '');
+                            $sql3 = "INSERT INTO lesson_videos (lesson_id, video_url) VALUES ($lesson_id, '$filename')";
+                            mysqli_query($conn, $sql3);
+                        }
+                    }
+                }
             }
         }
 
-        $lessonVideos = $_FILES['sections'];
+        // Section count'u güncelle
+        $updateCourse = "UPDATE courses SET section_count = $sectionCounter WHERE id = $course_id";
 
-        foreach ($lessonVideos['name'] as $secIndex => $section) {
-            foreach ($section['lessons'] as $lessonIndex => $lesson) {
-                $videoName = $lesson['video'];
-                $videoTmp = $_FILES['sections']['tmp_name'][$secIndex]['lessons'][$lessonIndex]['video'];
-
-                // move_uploaded_file($videoTmp, "uploads/videos/" . $videoName);
-            }
+        if (mysqli_query($conn, $updateCourse)) {
+            exit(json_encode(['status' => true, 'message' => 'Course Added', 'redirect' => 'home']));
         }
-        echo "-------------------------------------------------\n";
-        echo json_encode([
-            'post' => $_POST,
-            'files' => $_FILES
-        ], JSON_PRETTY_PRINT);
 
 
         // exit(json_encode(['status' => true, 'message' => 'Course Added', 'redirect' => 'home']));
