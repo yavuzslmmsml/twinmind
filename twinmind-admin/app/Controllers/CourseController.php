@@ -153,24 +153,28 @@ class CourseController {
 
                 foreach ($section['lessons'] as $lesson_index => $lesson) {
 
-
                     $lesson_title = mysqli_real_escape_string($conn, $lesson['title']);
+                    if (!isset($lesson_title) || empty($lesson_title)) {
+                        exit(json_encode(['status' => false, 'message' => 'Lesson title Can not be empty.']));
+                    }
+
+                    $lesson_video_url = mysqli_real_escape_string($conn, $lesson['video']);
+                    if (!isset($lesson_video_url) || empty($lesson_video_url)) {
+                        exit(json_encode(['status' => false, 'message' => 'Lesson video URL Can not be empty.']));
+                    }
+
                     $lesson_order = $lesson_index + 1;
-                    // $video_files = $lesson['video']; // HER ZAMAN ARRAY
-                    // // $video_count = count($video_files);
-                    // echo json_encode($video_count);
-                    // Lesson insert
+
+                    $video_url = mysqli_real_escape_string($conn, $lesson['video']);
+
                     $sql2 = "INSERT INTO course_lessons (section_id,lesson_title, video_count, lesson_order,created_at)
                      VALUES ($section_id, '$lesson_title', $lesson_count, $lesson_order,NOW())";
                     if (mysqli_query($conn, $sql2)) {
                         $lesson_id = mysqli_insert_id($conn);
 
                         // Video insert (örnek)
-                        foreach ($video_files as $video_file) {
-                            $filename = mysqli_real_escape_string($conn, $video_file['name'] ?? '');
-                            $sql3 = "INSERT INTO lesson_videos (lesson_id, video_url) VALUES ($lesson_id, '$filename')";
-                            mysqli_query($conn, $sql3);
-                        }
+                        $sql3 = "INSERT INTO lesson_videos (lesson_id, video_url) VALUES ($lesson_id, '$video_url')";
+                        mysqli_query($conn, $sql3);
                     }
                 }
             }

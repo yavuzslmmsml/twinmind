@@ -53,7 +53,13 @@
           <div class="col-md-12 mb-4">
             <label class="form-label">Course Structure</label>
             <div id="sectionsContainer">
-              <div class="card border p-3 mb-3">
+              <div class="card border p-3 mb-3 position-relative">
+                <div class="position-absolute top-0 end-0 p-2">
+                  <button type="button" class="btn btn-icon btn-sm btn-light-danger"
+                    onclick="removeSection(this)" title="Delete Section">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
                 <div class="mb-3">
                   <input type="text" name="sections[0][title]" class="form-control"
                     placeholder="Section Title">
@@ -62,8 +68,10 @@
                   <div class="border rounded p-2 mb-2">
                     <input type="text" name="sections[0][lessons][0][title]"
                       class="form-control mb-2" placeholder="Lesson Title">
-                    <input type="file" name="sections[0][lessons][0][video]" class="form-control"
-                      accept="video/mp4" required>
+                    <input type="text" name="sections[0][lessons][0][video]" class="form-control"
+                      placeholder="Lesson Video URL" required>
+                    <button type="button" class="btn btn-danger btn-sm mt-2"
+                      onclick="removeLesson(this)">Remove Lesson</button>
                   </div>
                 </div>
                 <button type="button" class="btn btn-outline-secondary btn-sm mt-2"
@@ -119,15 +127,21 @@
       function addSection() {
         const container = document.getElementById('sectionsContainer');
         const card = document.createElement('div');
-        card.className = 'card border p-3 mb-3';
+        card.className = 'card border p-3 mb-3 position-relative';
         card.innerHTML = `
+    <div class="position-absolute top-0 end-0 p-2">
+      <button type="button" class="btn btn-icon btn-sm btn-light-danger" onclick="removeSection(this)" title="Delete Section">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
     <div class="mb-3">
       <input type="text" name="sections[${sectionIndex}][title]" class="form-control" placeholder="Section Title">
     </div>
     <div class="lessonsContainer">
       <div class="border rounded p-2 mb-2">
         <input type="text" name="sections[${sectionIndex}][lessons][0][title]" class="form-control mb-2" placeholder="Lesson Title">
-        <input type="file" name="sections[${sectionIndex}][lessons][0][video]" class="form-control" accept="video/mp4" required>
+        <input type="text" name="sections[${sectionIndex}][lessons][0][video]" class="form-control" placeholder="Lesson Video URL" required>
+        <button type="button" class="btn btn-danger btn-sm mt-2" onclick="removeLesson(this)">Remove Lesson</button>
       </div>
     </div>
     <button type="button" class="btn btn-outline-secondary btn-sm mt-2" onclick="addLesson(this, ${sectionIndex})">+ Add Lesson</button>
@@ -143,14 +157,69 @@
         lessonDiv.className = 'border rounded p-2 mb-2';
         lessonDiv.innerHTML = `
     <input type="text" name="sections[${sectionIdx}][lessons][${lessonCount}][title]" class="form-control mb-2" placeholder="Lesson Title">
-    <input type="file" name="sections[${sectionIdx}][lessons][${lessonCount}][video]" class="form-control" accept="video/mp4" required>
+    <input type="text" name="sections[${sectionIdx}][lessons][${lessonCount}][video]" class="form-control" placeholder="Lesson Video URL" required>
     <button type="button" class="btn btn-danger btn-sm mt-2" onclick="removeLesson(this)">Remove Lesson</button>
   `;
         lessonsContainer.appendChild(lessonDiv);
       }
 
       function removeLesson(button) {
-        button.parentElement.remove();
+        const lessonDiv = button.closest('.border.rounded.p-2.mb-2');
+        if (lessonDiv) {
+          lessonDiv.remove();
+          // Reindex remaining lessons
+          const lessonsContainer = lessonDiv.parentElement;
+          const lessons = lessonsContainer.querySelectorAll('.border.rounded.p-2.mb-2');
+          lessons.forEach((lesson, index) => {
+            const titleInput = lesson.querySelector('input[placeholder="Lesson Title"]');
+            const videoInput = lesson.querySelector('input[placeholder="Lesson Video URL"]');
+            if (titleInput && videoInput) {
+              const sectionIdx = titleInput.name.match(/sections\[(\d+)\]/)[1];
+              titleInput.name = `sections[${sectionIdx}][lessons][${index}][title]`;
+              videoInput.name = `sections[${sectionIdx}][lessons][${index}][video]`;
+            }
+          });
+        }
+      }
+
+      function removeSection(button) {
+        if (confirm('Bu bölümü silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.')) {
+          const sectionCard = button.closest('.card');
+          if (sectionCard) {
+            sectionCard.remove();
+            // Reindex remaining sections
+            const sectionsContainer = document.getElementById('sectionsContainer');
+            const sections = sectionsContainer.querySelectorAll('.card');
+            sections.forEach((section, index) => {
+              const titleInput = section.querySelector('input[placeholder="Section Title"]');
+              const lessonsContainer = section.querySelector('.lessonsContainer');
+              const lessons = lessonsContainer.querySelectorAll('.border.rounded.p-2.mb-2');
+
+              if (titleInput) {
+                titleInput.name = `sections[${index}][title]`;
+              }
+
+              lessons.forEach((lesson, lessonIndex) => {
+                const lessonTitleInput = lesson.querySelector(
+                  'input[placeholder="Lesson Title"]');
+                const lessonVideoInput = lesson.querySelector(
+                  'input[placeholder="Lesson Video URL"]');
+                if (lessonTitleInput && lessonVideoInput) {
+                  lessonTitleInput.name =
+                    `sections[${index}][lessons][${lessonIndex}][title]`;
+                  lessonVideoInput.name =
+                    `sections[${index}][lessons][${lessonIndex}][video]`;
+                }
+              });
+
+              // Update the addLesson button's onclick attribute
+              const addLessonButton = section.querySelector('button[onclick^="addLesson"]');
+              if (addLessonButton) {
+                addLessonButton.setAttribute('onclick', `addLesson(this, ${index})`);
+              }
+            });
+          }
+        }
       }
 
       function applyCategories() {
