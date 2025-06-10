@@ -63,7 +63,7 @@ class CourseController {
 
                 $html .= '
                 <div class="form-check" style="margin-left: ' . $margin . 'px;">
-                    <input class="form-check-input" type="checkbox" value="' . $name . '" id="cat' . $id . '" name="categories[]">
+                    <input class="form-check-input" type="checkbox" value="' . $id . '" id="cat' . $id . '" name="categories[]">
                     <label class="form-check-label" for="cat' . $id . '">' . $name . '(' . $id . ')</label>
                 </div>
             ';
@@ -81,25 +81,36 @@ class CourseController {
     public function addNewCourseWithPost() {
         global $conn;
 
+        if (!isset($_POST['title']) || empty($_POST['title'])) {
+            exit(json_encode(['status' => false, 'message' => 'Course title Can not be empty.']));
+        }
 
-        $title = $_POST['title'] ?? '';
-        $description = $_POST['description'] ?? '';
-        $instructer = $_POST['instructer'] ?? '';
-        $price = $_POST['price'] ?? '';
-        $is_published = $_POST['status'] ?? '';
+        if (!isset($_POST['categories']) || empty($_POST['categories'])) {
+            exit(json_encode(['status' => false, 'message' => 'Course category Can not be empty.']));
+        }
+
+        if (!isset($_POST['price']) || empty($_POST['price'])) {
+            exit(json_encode(['status' => false, 'message' => 'Course price Can not be empty.']));
+        }
+
+
         $title = $_POST['title'];
+        $description = $_POST['description'];
+        $instructer = $_POST['instructer'];
+        $price = $_POST['price'];
+        $is_published = $_POST['status'];
         $categories = $_POST['categories'] ?? []; // array
         // JSON çıktısı
-        echo json_encode(['categories' => $categories], JSON_PRETTY_PRINT);
 
         $thumbnail = $_FILES['thumbnail'] ?? null;
-
         if ($thumbnail && $thumbnail['error'] === 0) {
             $target_dir = __DIR__ . "/../../public/assets/images/courseThumbnails/";
             $target_file = $target_dir . basename($_FILES["thumbnail"]["name"]);
             // move_uploaded_file($_FILES["thumbnail"]["tmp_name"], $target_file);
             $thumbName = $_FILES["thumbnail"]["name"];
             // örnek: uploads klasörüne kaydet
+        } else {
+            $thumbName = 'null';
         }
 
 
@@ -112,13 +123,24 @@ class CourseController {
             exit(json_encode(['status' => false, 'errors' => ['general' => ['Course not added. Please try again.']]]));
         }
 
-
+        foreach ($categories as $category_id) {
+            // Örneğin: kurs ID'si 5 ise
+            $query = "INSERT INTO course_categories (course_id, category_id)
+              VALUES ('$course_id', '$category_id')";
+            mysqli_query($conn, $query);
+        }
         $sections = $_POST['sections'] ?? [];
 
         $sectionCounter = 0;
 
         foreach ($sections as $section_index => $section) {
             $section_title = mysqli_real_escape_string($conn, $section['title']);
+
+            if (!isset($section_title) || empty($title)) {
+                exit(json_encode(['status' => false, 'message' => 'Course title Can not be empty.']));
+            }
+
+
             $lesson_count = count($section['lessons']);
             $section_order = $section_index + 1;
             $sectionCounter++;
@@ -134,13 +156,12 @@ class CourseController {
 
                     $lesson_title = mysqli_real_escape_string($conn, $lesson['title']);
                     $lesson_order = $lesson_index + 1;
-
                     // $video_files = $lesson['video']; // HER ZAMAN ARRAY
                     // // $video_count = count($video_files);
                     // echo json_encode($video_count);
                     // Lesson insert
                     $sql2 = "INSERT INTO course_lessons (section_id,lesson_title, video_count, lesson_order,created_at)
-                     VALUES ($section_id, '$lesson_title', $video_count, $lesson_order,NOW())";
+                     VALUES ($section_id, '$lesson_title', $lesson_count, $lesson_order,NOW())";
                     if (mysqli_query($conn, $sql2)) {
                         $lesson_id = mysqli_insert_id($conn);
 
@@ -155,15 +176,6 @@ class CourseController {
             }
         }
 
-        foreach ($_FILES['sections']['lessons']['video']['name'] as $sectionIndex => $lessons) {
-            echo json_encode($lessons);
-            foreach ($lessons as $lessonIndex => $videos) {
-                foreach ($videos as $videoIndex => $filename) {
-                    echo "Section $sectionIndex, Lesson $lessonIndex, Video $videoIndex: $filename\n";
-                    // Dosya taşıma vb. işlemleri yapabilirsin
-                }
-            }
-        }
 
         // Section count'u güncelle
         $updateCourse = "UPDATE courses SET section_count = $sectionCounter WHERE id = $course_id";
