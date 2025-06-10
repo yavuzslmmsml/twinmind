@@ -95,19 +95,21 @@ class CourseController {
         $thumbnail = $_FILES['thumbnail'] ?? null;
 
         if ($thumbnail && $thumbnail['error'] === 0) {
-            $thumbName = $thumbnail['name'];
-            $thumbTmp = $thumbnail['tmp_name'];
-
+            $target_dir = __DIR__ . "/../../public/assets/images/courseThumbnails/";
+            $target_file = $target_dir . basename($_FILES["thumbnail"]["name"]);
+            // move_uploaded_file($_FILES["thumbnail"]["tmp_name"], $target_file);
+            $thumbName = $_FILES["thumbnail"]["name"];
             // örnek: uploads klasörüne kaydet
-            // move_uploaded_file($thumbTmp, "uploads/" . $thumbName);
         }
+
+
 
         $query = "INSERT INTO `courses` (`title`,`description`,`section_count`,`instructer_id`,`price`,`thumbnail`,`is_published`,`created_at`) VALUES ('$title','$description','0','$instructer','$price','$thumbName','$is_published',NOW())";
 
         if (mysqli_query($conn, $query)) {
             $course_id = mysqli_insert_id($conn);
         } else {
-            exit(json_encode(['status' => false, 'errors' => ['general' => ['Registration failed. Please try again.']]]));
+            exit(json_encode(['status' => false, 'errors' => ['general' => ['Course not added. Please try again.']]]));
         }
 
 
@@ -128,13 +130,14 @@ class CourseController {
                 $section_id = mysqli_insert_id($conn);
 
                 foreach ($section['lessons'] as $lesson_index => $lesson) {
+
+
                     $lesson_title = mysqli_real_escape_string($conn, $lesson['title']);
                     $lesson_order = $lesson_index + 1;
 
-
-                    $video_files = $lesson['video']; // HER ZAMAN ARRAY
-                    $video_count = count($video_files);
-                    echo json_encode($video_count);
+                    // $video_files = $lesson['video']; // HER ZAMAN ARRAY
+                    // // $video_count = count($video_files);
+                    // echo json_encode($video_count);
                     // Lesson insert
                     $sql2 = "INSERT INTO course_lessons (section_id,lesson_title, video_count, lesson_order,created_at)
                      VALUES ($section_id, '$lesson_title', $video_count, $lesson_order,NOW())";
@@ -148,6 +151,16 @@ class CourseController {
                             mysqli_query($conn, $sql3);
                         }
                     }
+                }
+            }
+        }
+
+        foreach ($_FILES['sections']['lessons']['video']['name'] as $sectionIndex => $lessons) {
+            echo json_encode($lessons);
+            foreach ($lessons as $lessonIndex => $videos) {
+                foreach ($videos as $videoIndex => $filename) {
+                    echo "Section $sectionIndex, Lesson $lessonIndex, Video $videoIndex: $filename\n";
+                    // Dosya taşıma vb. işlemleri yapabilirsin
                 }
             }
         }
