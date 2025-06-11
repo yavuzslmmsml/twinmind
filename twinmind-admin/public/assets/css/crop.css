@@ -1,0 +1,15 @@
+  #thumbnailPreview {
+      max-width: 100%;
+      max-height: 250px;
+      /* küçültüldü */
+      margin-top: 10px;
+      object-fit: contain;
+  }
+
+  .cropper-container {
+      max-height: 250px !important;
+  }
+
+  #croppedResult img {
+      max-width: 300px;
+  }
