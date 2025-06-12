@@ -7,11 +7,24 @@ use Core\View;
 class CourseController {
 
     public function index() {
+        global $conn;
+
+        if ($_SESSION["user"]["role"] == 1 || $_SESSION["user"]["role"] == 2) {
+
+            $query = "SELECT * FROM courses";
+            $result = mysqli_query($conn, $query);
+            $fetch = mysqli_fetch_all($result, MYSQLI_ASSOC);
+        } else if ($_SESSION["user"]["role"] == 3) {
+            $query = "SELECT * FROM courses WHERE instructer_id = '" . $_SESSION["user"]["user_id"] . "'";
+            $result = mysqli_query($conn, $query);
+            $fetch = mysqli_fetch_all($result, MYSQLI_ASSOC);
+        }
 
         $test = "sifre";
         View::render('courseManagement/index', [
             'Title' => 'All Courses',
-            'ProfileDetails' => $test
+            'ProfileDetails' => $test,
+            'Result' => $fetch
         ]);
     }
     public function addNewCourse() {

@@ -39,7 +39,7 @@
         <!--begin::Menu wrapper-->
 
         <?php
-        if ($_SESSION["user"]["role"] == "superuser" || $_SESSION["user"]["role"] == "admin") {
+        if ($_SESSION["user"]["role"] == 1 || $_SESSION["user"]["role"] == 2) {
 
         ?>
         <div id="kt_app_sidebar_menu_wrapper" class="app-sidebar-wrapper">
@@ -750,7 +750,11 @@
             <!--end::Scroll wrapper-->
         </div>
 
-        <?php } ?>
+        <?php } elseif ($_SESSION["user"]["role"] == 3) {
+        ?>
+        <div>iuv</div>
+        <?php
+        } ?>
         <!--end::Menu wrapper-->
     </div>
     <!--end::sidebar menu-->

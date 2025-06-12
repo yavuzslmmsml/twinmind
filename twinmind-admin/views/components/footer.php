@@ -21,11 +21,11 @@
 <script src="https://cdn.amcharts.com/lib/5/geodata/worldTimeZonesLow.js"></script>
 <script src="https://cdn.amcharts.com/lib/5/geodata/worldTimeZoneAreasLow.js"></script>
 <script src="/assets/plugins/custom/datatables/datatables.bundle.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+
 <!--end::Vendors Javascript-->
 <!--begin::Custom Javascript(used for this page only)-->
 
-<script src="/assets/js/crop.js"></script>
+
 <script src="/assets/js/App.js"></script>
 <script src="/assets/js/AddUser.js"></script>
 <script src="/assets/js/Delete.js"></script>

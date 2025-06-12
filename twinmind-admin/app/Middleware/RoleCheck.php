@@ -4,9 +4,9 @@ namespace App\Middleware;
 
 class RoleCheck {
     private array $rolePermissions = [
-        'admin' => ['users', 'categoryAndTagManagement', 'faqs', 'messages', 'courseManagement'],
-        'superuser' => ['users', 'categoryAndTagManagement', 'faqs', 'messages', 'courseManagement'],
-        'instructor' => ['courseManagement']
+        '2' => ['users', 'categoryAndTagManagement', 'faqs', 'messages', 'courseManagement'],
+        '1' => ['users', 'categoryAndTagManagement', 'faqs', 'messages', 'courseManagement'],
+        '3' => ['courseManagement']
     ];
 
     public function handle() {

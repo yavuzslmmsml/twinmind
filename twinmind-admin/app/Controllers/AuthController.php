@@ -72,7 +72,7 @@ class AuthController {
 
         // Insert new user
         $sql = "INSERT INTO users (name, surname, email, password, role, status, profile_picture, bio, created_at) 
-                VALUES ('$name', '$surname', '$email', '$password', 'member', 'passive', NULL, NULL, NOW())";
+                VALUES ('$name', '$surname', '$email', '$password', '4', 'passive', NULL, NULL, NOW())";
 
         if (mysqli_query($conn, $sql)) {
             exit(json_encode(['status' => true, 'message' => 'Registration successful!', 'redirect' => 'auth/signin']));

@@ -84,15 +84,15 @@ class UsersController {
         }
 
         if ($role == "0") {
-            $role = "member";
+            $role = 4;
         } else if ($role == "1") {
-            $role = "superuser";
+            $role = 1;
         } else if ($role == "2") {
-            $role = "admin";
+            $role = 2;
         } else if ($role == "3") {
-            $role = "instructer";
+            $role = 3;
         } else {
-            $role = "member";
+            $role = 4;
         }
 
         if (!empty($Errors)) {
@@ -168,7 +168,4 @@ class UsersController {
             'users' => $id
         ]);
     }
-    
-
-        
 }
