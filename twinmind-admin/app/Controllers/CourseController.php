@@ -204,6 +204,13 @@ class CourseController {
 
         // exit(json_encode(['status' => true, 'message' => 'Course Added', 'redirect' => 'home']));
     }
+
+    public function displayCourse($id) {
+
+        View::render('courseManagement/displayCourse', [
+            'CourseId' => $id
+        ]);
+    }
     public function manageCourseCategory() {
 
         $test = "sifre";
